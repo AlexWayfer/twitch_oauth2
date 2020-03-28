@@ -1,0 +1,27 @@
+bundle_cache: &bundle_cache
+  bundle_cache:
+    folder: /usr/local/bundle
+    fingerprint_script:
+      - echo $CIRRUS_OS
+      - ruby -v
+      - cat Gemfile
+      - cat *.gemspec
+  install_script: bundle update
+
+test_task:
+  container:
+    matrix:
+      image: ruby:2.4
+      image: ruby:2.5
+      image: ruby:2.6
+      image: ruby:2.7
+  <<: *bundle_cache
+  environment:
+    # CODECOV_TOKEN: ENCRYPTED[]
+  test_script: bundle exec rake
+
+rubocop_task:
+  container:
+    image: ruby:2.7
+  <<: *bundle_cache
+  rubocop_script: bundle exec rubocop

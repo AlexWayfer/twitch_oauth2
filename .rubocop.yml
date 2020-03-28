@@ -1,0 +1,12 @@
+Layout/Tab:
+  Enabled: false
+  IndentationWidth: 2
+Layout/IndentationWidth:
+  Width: 1
+
+Style/HashEachMethods:
+  Enabled: true
+Style/HashTransformKeys:
+  Enabled: true
+Style/HashTransformValues:
+  Enabled: true
