@@ -3,6 +3,8 @@ Layout/Tab:
   IndentationWidth: 2
 Layout/IndentationWidth:
   Width: 1
+Layout/MultilineMethodCallIndentation:
+  EnforcedStyle: indented
 
 Style/HashEachMethods:
   Enabled: true
@@ -10,3 +12,11 @@ Style/HashTransformKeys:
   Enabled: true
 Style/HashTransformValues:
   Enabled: true
+
+Metrics/BlockLength:
+  Exclude:
+    - '*.gemspec'
+    - spec/**/*.rb
+
+AllCops:
+  TargetRubyVersion: 2.5

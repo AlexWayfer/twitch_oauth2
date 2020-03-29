@@ -1,0 +1,40 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://id.twitch.tv/oauth2/validate
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.0.0
+      Authorization:
+      - OAuth <ACTUAL_ACCESS_TOKEN>
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      date:
+      - Sun, 29 Mar 2020 21:35:26 GMT
+      content-type:
+      - application/json
+      content-length:
+      - '149'
+      connection:
+      - close
+      server:
+      - nginx/1.14.1
+      access-control-allow-origin:
+      - "*"
+      x-ctxlog-logid:
+      - 1-5e81149e-aacf10e07666b160f62d3bf8
+    body:
+      encoding: UTF-8
+      string: '{"client_id":"<CLIENT_ID>","login":"alexwayfer","scopes":["bits:read","user:read:email"],"user_id":"117474239","expires_in":7509}
+
+        '
+    http_version: null
+  recorded_at: Sun, 29 Mar 2020 21:35:27 GMT
+recorded_with: VCR 5.1.0

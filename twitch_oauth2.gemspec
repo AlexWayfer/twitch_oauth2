@@ -15,7 +15,8 @@ Gem::Specification.new do |spec|
 		or something else.
 	DESC
 	spec.license = 'MIT'
-	spec.required_ruby_version = Gem::Requirement.new('>= 2.3.0')
+
+	spec.required_ruby_version = '>= 2.5'
 
 	source_code_uri = 'https://github.com/AlexWayfer/twitch_oauth2'
 
@@ -40,9 +41,12 @@ Gem::Specification.new do |spec|
 	spec.executables   = spec.files.grep(%r{^exe/}) { |file| File.basename(file) }
 	spec.require_paths = ['lib']
 
+	spec.add_dependency 'faraday', '~> 1.0'
+
 	spec.add_development_dependency 'codecov', '~> 0.1.0'
 	spec.add_development_dependency 'rake', '~> 13.0'
 	spec.add_development_dependency 'rspec', '~> 3.9'
 	spec.add_development_dependency 'rubocop', '~> 0.80.0'
 	spec.add_development_dependency 'simplecov', '~> 0.18.0'
+	spec.add_development_dependency 'vcr', '~> 5.1'
 end
