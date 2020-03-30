@@ -33,7 +33,9 @@ require 'twitch_oauth2'
 client = TwitchOAuth2::Client.new(
   client_id: 'application_client_id',
   client_secret: 'application_client_secret',
-  redirect_uri: 'application_redirect_uri' ## usually `http://localhost/`
+  ## Optional:
+  # redirect_uri: 'application_redirect_uri' ## default is `http://localhost`
+  # scopes: %w[user:read:email bits:read] ## default is `nil`
 )
 ```
 
@@ -43,6 +45,7 @@ client = TwitchOAuth2::Client.new(
 and login as user for whom tokens are intended)
 
 ```ruby
+## `scopes` can be passed only to `initialize`
 client.flow scopes: %w[user:read:email bits:read]
 
 # {
