@@ -86,7 +86,9 @@ describe TwitchOAuth2::Client do
 			end
 
 			it 'returns JSON with access_token' do
-				allow(STDOUT).to receive(:puts).with(expected_instructions)
+				unless vcr_recording?
+					allow(STDOUT).to receive(:puts).with(expected_instructions)
+				end
 
 				expect(result).to match expected_result
 			end
