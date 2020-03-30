@@ -21,6 +21,12 @@ test_task:
 
 rubocop_task:
   container:
-    image: ruby:2.7
+    image: ruby:latest
   <<: *bundle_cache
   rubocop_script: bundle exec rubocop
+
+markdown_lint_task:
+  container:
+    image: ruby:latest
+  <<: *bundle_cache
+  rubocop_script: bundle exec mdl .
