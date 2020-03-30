@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://id.twitch.tv/oauth2/authorize?client_id=<CLIENT_ID>&redirect_uri=http%3A%2F%2Flocalhost%2F&response_type=code&scope=user%3Aread%3Aemail+bits%3Aread
+    uri: https://id.twitch.tv/oauth2/authorize?client_id=<CLIENT_ID>&redirect_uri=http%3A%2F%2Flocalhost&response_type=code&scope=user%3Aread%3Aemail+bits%3Aread
     body:
       encoding: US-ASCII
       string: ''
@@ -15,11 +15,11 @@ http_interactions:
       message: Found
     headers:
       date:
-      - Sun, 29 Mar 2020 21:35:03 GMT
+      - Mon, 30 Mar 2020 11:48:08 GMT
       content-type:
       - text/html; charset=utf-8
       content-length:
-      - '278'
+      - '273'
       connection:
       - close
       server:
@@ -27,7 +27,7 @@ http_interactions:
       access-control-allow-origin:
       - "*"
       location:
-      - https://www.twitch.tv/login?client_id=<CLIENT_ID>&redirect_params=client_id%3D<CLIENT_ID>%26redirect_uri%3Dhttp%253A%252F%252Flocalhost%252F%26response_type%3Dcode%26scope%3Duser%253Aread%253Aemail%2Bbits%253Aread
+      - https://www.twitch.tv/login?client_id=<CLIENT_ID>&redirect_params=client_id%3D<CLIENT_ID>%26redirect_uri%3Dhttp%253A%252F%252Flocalhost%26response_type%3Dcode%26scope%3Duser%253Aread%253Aemail%2Bbits%253Aread
       set-cookie:
       - twilight-auth=; Path=/; Domain=twitch.tv; Expires=Thu, 01 Jan 1970 00:00:00
         GMT; Max-Age=0; Secure, twilight-user=; Path=/; Domain=twitch.tv; Expires=Thu,
@@ -47,20 +47,20 @@ http_interactions:
         _twitch_session_id=; Path=/; Domain=twitch.tv; Expires=Thu, 01 Jan 1970 00:00:00
         GMT; Max-Age=0; Secure
       x-ctxlog-logid:
-      - 1-5e811487-935276e75c1dc7cdfbac20c3
+      - 1-5e81dc78-04e00ec6482bd4847e3c3cf0
       x-frame-options:
       - DENY
     body:
       encoding: UTF-8
-      string: "<a href=\"https://www.twitch.tv/login?client_id=<CLIENT_ID>&amp;redirect_params=client_id%3D<CLIENT_ID>%26redirect_uri%3Dhttp%253A%252F%252Flocalhost%252F%26response_type%3Dcode%26scope%3Duser%253Aread%253Aemail%2Bbits%253Aread\">Found</a>.\n\n"
+      string: "<a href=\"https://www.twitch.tv/login?client_id=<CLIENT_ID>&amp;redirect_params=client_id%3D<CLIENT_ID>%26redirect_uri%3Dhttp%253A%252F%252Flocalhost%26response_type%3Dcode%26scope%3Duser%253Aread%253Aemail%2Bbits%253Aread\">Found</a>.\n\n"
     http_version: null
-  recorded_at: Sun, 29 Mar 2020 21:35:03 GMT
+  recorded_at: Mon, 30 Mar 2020 11:48:08 GMT
 - request:
     method: post
     uri: https://id.twitch.tv/oauth2/token
     body:
       encoding: UTF-8
-      string: client_id=<CLIENT_ID>&client_secret=<CLIENT_SECRET>&code=<CODE>&grant_type=authorization_code&redirect_uri=http%3A%2F%2Flocalhost%2F
+      string: client_id=<CLIENT_ID>&client_secret=<CLIENT_SECRET>&code=<CODE>&grant_type=authorization_code&redirect_uri=http%3A%2F%2Flocalhost
     headers:
       User-Agent:
       - Faraday v1.0.0
@@ -72,7 +72,7 @@ http_interactions:
       message: OK
     headers:
       date:
-      - Sun, 29 Mar 2020 21:35:26 GMT
+      - Mon, 30 Mar 2020 11:48:23 GMT
       content-type:
       - application/json
       content-length:
@@ -84,12 +84,12 @@ http_interactions:
       access-control-allow-origin:
       - "*"
       x-ctxlog-logid:
-      - 1-5e81149d-6ae1e0196f99d51dd95657ed
+      - 1-5e81dc87-fbe500cfd25ba6bdeb433c65
     body:
       encoding: UTF-8
-      string: '{"access_token":"<ACCESS_TOKEN>","expires_in":13673,"refresh_token":"<REFRESH_TOKEN>","scope":["bits:read","user:read:email"],"token_type":"bearer"}
+      string: '{"access_token":"<ACCESS_TOKEN>","expires_in":14213,"refresh_token":"<REFRESH_TOKEN>","scope":["bits:read","user:read:email"],"token_type":"bearer"}
 
         '
     http_version: null
-  recorded_at: Sun, 29 Mar 2020 21:35:26 GMT
+  recorded_at: Mon, 30 Mar 2020 11:48:23 GMT
 recorded_with: VCR 5.1.0

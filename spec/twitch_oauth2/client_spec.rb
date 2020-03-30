@@ -11,7 +11,7 @@ describe TwitchOAuth2::Client do
 
 	let(:client_id) { ENV['TWITCH_CLIENT_ID'] }
 	let(:client_secret) { ENV['TWITCH_CLIENT_SECRET'] }
-	let(:redirect_uri) { 'http://localhost/' }
+	let(:redirect_uri) { 'http://localhost' }
 	let(:scopes) { %w[user:read:email bits:read] }
 
 	let(:state) { subject.instance_variable_get(:@state) }

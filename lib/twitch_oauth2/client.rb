@@ -12,7 +12,9 @@ module TwitchOAuth2
 			connection.request :url_encoded
 		end.freeze
 
-		def initialize(client_id:, client_secret:, redirect_uri: nil, scopes: nil)
+		def initialize(
+			client_id:, client_secret:, redirect_uri: 'http://localhost', scopes: nil
+		)
 			@client_id = client_id
 			@client_secret = client_secret
 			@redirect_uri = redirect_uri

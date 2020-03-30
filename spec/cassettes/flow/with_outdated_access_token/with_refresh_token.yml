@@ -17,7 +17,7 @@ http_interactions:
       message: Unauthorized
     headers:
       date:
-      - Sun, 29 Mar 2020 21:37:39 GMT
+      - Mon, 30 Mar 2020 11:48:25 GMT
       content-type:
       - application/json
       content-length:
@@ -29,14 +29,14 @@ http_interactions:
       access-control-allow-origin:
       - "*"
       x-ctxlog-logid:
-      - 1-5e811523-b170725e8199ef4316e87fef
+      - 1-5e81dc89-213970daf0665f5e90667f3e
     body:
       encoding: UTF-8
       string: '{"status":401,"message":"invalid access token"}
 
         '
     http_version: null
-  recorded_at: Sun, 29 Mar 2020 21:37:39 GMT
+  recorded_at: Mon, 30 Mar 2020 11:48:25 GMT
 - request:
     method: post
     uri: https://id.twitch.tv/oauth2/token
@@ -54,7 +54,7 @@ http_interactions:
       message: OK
     headers:
       date:
-      - Sun, 29 Mar 2020 21:37:40 GMT
+      - Mon, 30 Mar 2020 11:48:26 GMT
       content-type:
       - application/json
       content-length:
@@ -66,12 +66,12 @@ http_interactions:
       access-control-allow-origin:
       - "*"
       x-ctxlog-logid:
-      - 1-5e811524-1cced18b3f2bebebc288075c
+      - 1-5e81dc8a-5dd62e795fb7bfd8656af87e
     body:
       encoding: UTF-8
-      string: '{"access_token":"<ACCESS_TOKEN>","expires_in":13237,"refresh_token":"<REFRESH_TOKEN>","scope":["bits:read","user:read:email"],"token_type":"bearer"}
+      string: '{"access_token":"<ACCESS_TOKEN>","expires_in":14924,"refresh_token":"<REFRESH_TOKEN>","scope":["bits:read","user:read:email"],"token_type":"bearer"}
 
         '
     http_version: null
-  recorded_at: Sun, 29 Mar 2020 21:37:40 GMT
+  recorded_at: Mon, 30 Mar 2020 11:48:26 GMT
 recorded_with: VCR 5.1.0
