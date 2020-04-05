@@ -2,9 +2,9 @@
 
 ## `described_class` is `nil` when `describe` with `String`
 # rubocop:disable RSpec/DescribeClass
-describe(const_name = 'TwitchOAuth2::VERSION') do
+describe 'TwitchOAuth2::VERSION' do
 	# rubocop:enable RSpec/DescribeClass
-	subject { Object.const_get(const_name) }
+	subject { Object.const_get(self.class.description) }
 
 	it { is_expected.to match(/\d+\.\d+\.\d+/) }
 end

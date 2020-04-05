@@ -27,61 +27,50 @@ gem install twitch_oauth2
 
 ## Usage
 
+### Initialization
+
 ```ruby
 require 'twitch_oauth2'
 
 client = TwitchOAuth2::Client.new(
   client_id: 'application_client_id',
   client_secret: 'application_client_secret',
-  ## Optional:
-  # redirect_uri: 'application_redirect_uri' ## default is `http://localhost`
-  # scopes: %w[user:read:email bits:read] ## default is `nil`
+  scopes: %w[user:read:email bits:read] # default is `nil`
+  redirect_uri: 'application_redirect_uri' # default is `http://localhost`
 )
 ```
 
-### The first run
-
-(you will be asked to open a Twitch link in a browser
-and login as user for whom tokens are intended)
+### Check tokens
 
 ```ruby
-## `scopes` can be passed only to `initialize`
-client.flow scopes: %w[user:read:email bits:read]
+tokens = previously_saved_tokens
+# => { access_token: 'abcdef', refresh_token: 'ghikjl' }
+# Can be empty.
 
-# {
-#   access_token: 'abcdef',
-#   refresh_token: 'ghikjl',
-#   expires_in: 15_000,
-#   scope: %w[bits:read user:read:email],
-#   token_type: 'bearer'
-# }
+client.check_tokens **tokens
 ```
 
-### Reusing existing `access_token`
+#### The first run
+
+You can pass nothing to `#check_tokens`, then client will generate new ones.
+You will be asked to open a Twitch link in a browser and login as user
+for whom tokens are intended.
+
+#### Reusing tokens
+
+Then, if you pass tokens, client will validate them and return themselves
+or refresh and return new ones.
+
+### Explicitly refresh tokens
+
+You can refresh tokens manually:
 
 ```ruby
-client.flow access_token: 'abcdef', refresh_token: 'ghikjl'
-
-## Successful validation without refreshing
-
-# {
-#   client_id: 'application_client_id',
-#   expires_in: 14_990,
-#   login: 'login_of_access_token_user',
-#   scopes: %w[bits:read user:read:email],
-#   user_id: 'id_of_access_token_user'
-# }
-
-## `access_token` was expired and refreshed via `refresh_token`
-
-# {
-#   access_token: 'a_new_access_token',
-#   refresh_token: 'a_new_refresh_token',
-#   expires_in: 15_000,
-#   scope: %w[bits:read user:read:email],
-#   token_type: 'bearer'
-# }
+client.refreshed_tokens refresh_token: 'ghikjl'
 ```
+
+This is used internally in `#check_tokens`, and can be used separately
+for failed requests to API.
 
 ## Development
 

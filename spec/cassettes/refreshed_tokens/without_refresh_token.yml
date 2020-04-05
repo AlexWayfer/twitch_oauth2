@@ -1,0 +1,40 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://id.twitch.tv/oauth2/token
+    body:
+      encoding: UTF-8
+      string: '{"client_id":"<CLIENT_ID>","client_secret":"<CLIENT_SECRET>","grant_type":"refresh_token","refresh_token":null}'
+    headers:
+      User-Agent:
+      - Faraday v1.0.1
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 400
+      message: Bad Request
+    headers:
+      date:
+      - Sun, 05 Apr 2020 13:40:33 GMT
+      content-type:
+      - application/json
+      content-length:
+      - '49'
+      connection:
+      - keep-alive
+      server:
+      - nginx/1.14.1
+      access-control-allow-origin:
+      - "*"
+      x-ctxlog-logid:
+      - 1-5e89dfd1-cbb0c8787cdffea0bf23ee58
+    body:
+      encoding: UTF-8
+      string: '{"status":400,"message":"missing refresh token"}
+
+        '
+    http_version: null
+  recorded_at: Sun, 05 Apr 2020 13:40:33 GMT
+recorded_with: VCR 5.1.0

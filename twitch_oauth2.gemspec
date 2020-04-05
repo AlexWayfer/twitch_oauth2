@@ -42,6 +42,7 @@ Gem::Specification.new do |spec|
 	spec.require_paths = ['lib']
 
 	spec.add_dependency 'faraday', '~> 1.0'
+	spec.add_dependency 'faraday_middleware', '~> 1.0'
 
 	spec.add_development_dependency 'codecov', '~> 0.1.0'
 	spec.add_development_dependency 'mdl', '~> 0.9.0'

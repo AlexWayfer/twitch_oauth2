@@ -5,7 +5,8 @@ describe TwitchOAuth2::Client do
 		described_class.new(
 			client_id: client_id,
 			client_secret: client_secret,
-			redirect_uri: redirect_uri
+			redirect_uri: redirect_uri,
+			scopes: scopes
 		)
 	end
 
@@ -14,55 +15,61 @@ describe TwitchOAuth2::Client do
 	let(:redirect_uri) { 'http://localhost' }
 	let(:scopes) { %w[user:read:email bits:read] }
 
+	let(:actual_access_token) { ENV['TWITCH_ACCESS_TOKEN'] }
+	let(:outdated_access_token) { '9y7bf00r4fof71czggal1e2wlo50q3' }
+
 	let(:state) { subject.instance_variable_get(:@state) }
 	let(:scope) { scopes.join(' ') }
+	let(:vcr_recording?) { VCR.current_cassette.recording? }
 
-	describe '#flow' do
-		def example_group_descriptions(example_group)
-			example_group_description = example_group.description
-			return if example_group_description == described_class.name
+	let(:expected_access_token) do
+		vcr_recording? ? a_string_matching(/[a-z0-9]{30,}/) : '<ACCESS_TOKEN>'
+	end
 
-			[send(__method__, example_group.superclass), example_group_description]
-				.compact
+	let(:expected_refresh_token) do
+		vcr_recording? ? a_string_matching(/[a-z0-9]{30,}/) : '<REFRESH_TOKEN>'
+	end
+
+	let(:expected_tokens) do
+		{
+			access_token: expected_access_token,
+			refresh_token: expected_refresh_token
+		}
+	end
+
+	def example_group_descriptions(example_group)
+		example_group_description = example_group.description
+		return if example_group_description == described_class.name
+
+		[send(__method__, example_group.superclass), example_group_description]
+			.compact
+	end
+
+	around do |example|
+		cassette_name =
+			example_group_descriptions(example.example_group)
+				.join('/').delete('#').tr(' ', '_')
+		VCR.use_cassette(cassette_name) do
+			example.run
 		end
+	end
 
-		around do |example|
-			cassette_name =
-				example_group_descriptions(example.example_group)
-					.join('/').delete('#').tr(' ', '_')
-			VCR.use_cassette(cassette_name) do
-				example.run
-			end
-		end
-
-		let(:vcr_recording?) { VCR.current_cassette.recording? }
-
-		let(:expected_access_token) do
-			vcr_recording? ? a_string_matching(/[a-z0-9]{30,}/) : '<ACCESS_TOKEN>'
-		end
-
-		let(:expected_refresh_token) do
-			vcr_recording? ? a_string_matching(/[a-z0-9]{30,}/) : '<REFRESH_TOKEN>'
-		end
-
-		let(:expected_token_result) do
-			{
-				access_token: expected_access_token,
-				refresh_token: expected_refresh_token,
-				expires_in: a_value > 0,
-				scope: scopes.sort,
-				token_type: 'bearer'
-			}
+	describe '#check_tokens' do
+		subject(:result) do
+			client.check_tokens(
+				access_token: access_token, refresh_token: refresh_token
+			)
 		end
 
 		context 'without tokens' do
-			subject(:result) { client.flow(scopes: scopes) }
-
 			before do
 				unless vcr_recording?
 					allow(STDIN).to receive(:gets).and_return 'any_code'
 				end
 			end
+
+			let(:access_token) { nil }
+			let(:refresh_token) { nil }
 
 			let(:redirect_params) do
 				URI.encode_www_form_component URI.encode_www_form(
@@ -72,8 +79,6 @@ describe TwitchOAuth2::Client do
 					scope: scope
 				)
 			end
-
-			let(:expected_result) { expected_token_result }
 
 			let(:expected_instructions) do
 				<<~TEXT
@@ -85,72 +90,91 @@ describe TwitchOAuth2::Client do
 				TEXT
 			end
 
-			it 'returns JSON with access_token' do
-				unless vcr_recording?
-					allow(STDOUT).to receive(:puts).with(expected_instructions)
+			context 'with correct client credentials' do
+				it 'returns new tokens' do
+					unless vcr_recording?
+						allow(STDOUT).to receive(:puts).with(expected_instructions)
+					end
+
+					expect(result).to match expected_tokens
 				end
 
-				expect(result).to match expected_result
+				it 'outputs instructions' do
+					expect { result }.to output(expected_instructions).to_stdout
+				end
 			end
 
-			it 'outputs instructions' do
-				expect { result }.to output(expected_instructions).to_stdout
+			context 'with incorrect client credentials' do
+				let(:client_id) { nil }
+				let(:client_secret) { nil }
+
+				it 'raises error without instructions' do
+					expect { result }
+						.to not_output(expected_instructions).to_stdout
+						.and raise_error TwitchOAuth2::Error, 'missing client id'
+				end
 			end
 		end
 
 		context 'with actual access_token' do
-			subject(:result) { client.flow(access_token: actual_access_token) }
+			let(:access_token) { actual_access_token }
+			let(:refresh_token) { 42 }
 
-			let(:actual_access_token) { ENV['TWITCH_ACCESS_TOKEN'] }
-
-			let(:expected_result) do
-				{
-					client_id: client_id,
-					expires_in: a_value > 0,
-					login: a_string_matching(/\w+/),
-					scopes: scopes.sort,
-					user_id: a_string_matching(/\d+/)
-				}
-			end
-
-			it 'returns JSON with access_token' do
-				expect(result).to match expected_result
+			it 'returns the same tokens' do
+				expect(result).to match(
+					access_token: access_token, refresh_token: refresh_token
+				)
 			end
 		end
 
 		context 'with outdated access_token' do
-			subject(:result) do
-				client.flow(
-					access_token: outdated_access_token,
-					refresh_token: refresh_token
-				)
-			end
-
-			let(:outdated_access_token) { '9y7bf00r4fof71czggal1e2wlo50q3' }
+			let(:access_token) { outdated_access_token }
 
 			context 'with refresh_token' do
 				let(:refresh_token) { ENV['TWITCH_REFRESH_TOKEN'] }
 
-				let(:expected_result) { expected_token_result }
-
 				it 'returns JSON with access_token' do
-					expect(result).to match expected_result
+					expect(result).to match expected_tokens
 				end
 			end
 
 			context 'without refresh_token' do
 				let(:refresh_token) { nil }
 
-				let(:expected_result) do
-					{
-						status: 400,
-						message: 'missing refresh token'
-					}
+				it 'raises error' do
+					expect { result }
+						.to raise_error TwitchOAuth2::Error, 'missing refresh token'
 				end
+			end
+		end
+	end
 
-				it 'returns JSON with access_token' do
-					expect(result).to match expected_result
-				end
+	describe '#refreshed_tokens' do
+		subject(:result) { client.refreshed_tokens(refresh_token: refresh_token) }
+
+		context 'with correct refresh_token' do
+			let(:refresh_token) { ENV['TWITCH_REFRESH_TOKEN'] }
+
+			it 'returns JSON with access_token' do
+				expect(result).to match expected_tokens
+			end
+		end
+
+		context 'with incorrect refresh_token' do
+			let(:refresh_token) { 'foobar' }
+
+			it 'raises error' do
+				expect { result }
+					.to raise_error TwitchOAuth2::Error, 'Invalid refresh token'
+			end
+		end
+
+		context 'without refresh_token' do
+			let(:refresh_token) { nil }
+
+			it 'raises error' do
+				expect { result }
+					.to raise_error TwitchOAuth2::Error, 'missing refresh token'
 			end
 		end
 	end

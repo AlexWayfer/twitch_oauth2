@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'faraday'
-require 'json'
+require 'faraday_middleware'
 require 'securerandom'
 
 module TwitchOAuth2
@@ -10,7 +10,13 @@ module TwitchOAuth2
 		CONNECTION = Faraday.new(
 			url: 'https://id.twitch.tv/oauth2/'
 		) do |connection|
-			connection.request :url_encoded
+			connection.request :json
+
+			connection.response :dates
+
+			connection.response :json,
+				content_type: /\bjson$/,
+				parser_options: { symbolize_names: true }
 		end.freeze
 
 		def initialize(
@@ -24,22 +30,30 @@ module TwitchOAuth2
 			@state = SecureRandom.alphanumeric(32)
 		end
 
-		def flow(scopes: @scopes, access_token: nil, refresh_token: nil)
+		def check_tokens(access_token: nil, refresh_token: nil)
 			if access_token
-				result = validate access_token: access_token
+				validate_result = validate access_token: access_token
 
-				return refresh(refresh_token: refresh_token) if result[:status] == 401
+				if validate_result[:status] == 401
+					return refreshed_tokens(refresh_token: refresh_token)
+				end
 
-				return result if result[:expires_in].positive?
+				if validate_result[:expires_in].positive?
+					return { access_token: access_token, refresh_token: refresh_token }
+				end
 			end
 
-			flow_with_authorize scopes: scopes
+			flow
+		end
+
+		def refreshed_tokens(refresh_token:)
+			refresh(refresh_token: refresh_token).slice(:access_token, :refresh_token)
 		end
 
 		private
 
-		def flow_with_authorize(scopes:)
-			link = authorize scopes: scopes
+		def flow
+			link = authorize
 
 			puts <<~TEXT
 				1. Open URL in your browser:
@@ -51,21 +65,22 @@ module TwitchOAuth2
 
 			code = STDIN.gets.chomp
 
-			token code: code
+			token(code: code).slice(:access_token, :refresh_token)
 		end
 
-		def authorize(scopes: @scopes)
-			scope = transform_scopes_to_string scopes
-
+		def authorize
 			response = CONNECTION.get(
 				'authorize',
 				client_id: @client_id,
 				redirect_uri: @redirect_uri,
-				scope: scope,
+				scope: Array(@scopes).join(' '),
 				response_type: :code
 			)
 
-			response.headers[:location]
+			location = response.headers[:location]
+			return location if location
+
+			raise Error, response.body[:message]
 		end
 
 		def token(code:)
@@ -78,7 +93,7 @@ module TwitchOAuth2
 				redirect_uri: @redirect_uri
 			)
 
-			parse_json_response response.body
+			response.body
 		end
 
 		def validate(access_token:)
@@ -86,7 +101,7 @@ module TwitchOAuth2
 				'validate', {}, { 'Authorization' => "OAuth #{access_token}" }
 			)
 
-			parse_json_response response.body
+			response.body
 		end
 
 		def refresh(refresh_token:)
@@ -98,15 +113,9 @@ module TwitchOAuth2
 				refresh_token: refresh_token
 			)
 
-			parse_json_response response.body
-		end
+			return response.body if response.success?
 
-		def transform_scopes_to_string(scopes)
-			Array(scopes).join(' ')
-		end
-
-		def parse_json_response(string)
-			JSON.parse(string).transform_keys(&:to_sym)
+			raise Error, response.body[:message]
 		end
 	end
 end
