@@ -8,7 +8,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Faraday v1.0.0
+      - Faraday v1.0.1
       Authorization:
       - OAuth 9y7bf00r4fof71czggal1e2wlo50q3
   response:
@@ -17,61 +17,61 @@ http_interactions:
       message: Unauthorized
     headers:
       date:
-      - Mon, 30 Mar 2020 11:48:27 GMT
+      - Sun, 05 Apr 2020 13:32:35 GMT
       content-type:
       - application/json
       content-length:
       - '48'
       connection:
-      - close
+      - keep-alive
       server:
       - nginx/1.14.1
       access-control-allow-origin:
       - "*"
       x-ctxlog-logid:
-      - 1-5e81dc8b-afd365d08c1af4d424a6f950
+      - 1-5e89ddf3-b367d8d0441513e0d873a850
     body:
       encoding: UTF-8
       string: '{"status":401,"message":"invalid access token"}
 
         '
     http_version: null
-  recorded_at: Mon, 30 Mar 2020 11:48:27 GMT
+  recorded_at: Sun, 05 Apr 2020 13:32:35 GMT
 - request:
     method: post
     uri: https://id.twitch.tv/oauth2/token
     body:
       encoding: UTF-8
-      string: client_id=<CLIENT_ID>&client_secret=<CLIENT_SECRET>&grant_type=refresh_token&refresh_token
+      string: '{"client_id":"<CLIENT_ID>","client_secret":"<CLIENT_SECRET>","grant_type":"refresh_token","refresh_token":null}'
     headers:
       User-Agent:
-      - Faraday v1.0.0
+      - Faraday v1.0.1
       Content-Type:
-      - application/x-www-form-urlencoded
+      - application/json
   response:
     status:
       code: 400
       message: Bad Request
     headers:
       date:
-      - Mon, 30 Mar 2020 11:48:28 GMT
+      - Sun, 05 Apr 2020 13:32:36 GMT
       content-type:
       - application/json
       content-length:
       - '49'
       connection:
-      - close
+      - keep-alive
       server:
       - nginx/1.14.1
       access-control-allow-origin:
       - "*"
       x-ctxlog-logid:
-      - 1-5e81dc8c-89d9579321fadca1423b4e83
+      - 1-5e89ddf3-1298728949ace93f0d1be97c
     body:
       encoding: UTF-8
       string: '{"status":400,"message":"missing refresh token"}
 
         '
     http_version: null
-  recorded_at: Mon, 30 Mar 2020 11:48:28 GMT
+  recorded_at: Sun, 05 Apr 2020 13:32:36 GMT
 recorded_with: VCR 5.1.0

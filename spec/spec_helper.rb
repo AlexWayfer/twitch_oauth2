@@ -15,6 +15,8 @@ ENV['TWITCH_CLIENT_SECRET'] ||= 'test_client_secret'
 ENV['TWITCH_ACCESS_TOKEN'] ||= 'test_access_token'
 ENV['TWITCH_REFRESH_TOKEN'] ||= 'test_refresh_token'
 
+RSpec::Matchers.define_negated_matcher :not_output, :output
+
 require 'vcr'
 
 VCR.configure do |config|

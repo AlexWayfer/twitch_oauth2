@@ -1,0 +1,40 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://id.twitch.tv/oauth2/validate
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.0.1
+      Authorization:
+      - OAuth <ACTUAL_ACCESS_TOKEN>
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      date:
+      - Sun, 05 Apr 2020 13:32:32 GMT
+      content-type:
+      - application/json
+      content-length:
+      - '258'
+      connection:
+      - keep-alive
+      server:
+      - nginx/1.14.1
+      access-control-allow-origin:
+      - "*"
+      x-ctxlog-logid:
+      - 1-5e89ddf0-9d3be82ef7437fe8b05e4e30
+    body:
+      encoding: UTF-8
+      string: '{"client_id":"<CLIENT_ID>","login":"streamassistantbot","scopes":["bits:read","channel_commercial","channel_editor","channel_read","channel_stream","user:read:email","user_blocks_edit","user_read"],"user_id":"277558749","expires_in":2540}
+
+        '
+    http_version: null
+  recorded_at: Sun, 05 Apr 2020 13:32:32 GMT
+recorded_with: VCR 5.1.0
