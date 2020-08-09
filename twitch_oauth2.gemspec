@@ -45,7 +45,7 @@ Gem::Specification.new do |spec|
 	spec.add_dependency 'faraday_middleware', '~> 1.0'
 
 	spec.add_development_dependency 'codecov', '~> 0.1.0'
-	spec.add_development_dependency 'mdl', '~> 0.9.0'
+	spec.add_development_dependency 'mdl', '~> 0.10.0'
 	spec.add_development_dependency 'pry-byebug', '~> 3.9'
 	spec.add_development_dependency 'rake', '~> 13.0'
 	spec.add_development_dependency 'rspec', '~> 3.9'
