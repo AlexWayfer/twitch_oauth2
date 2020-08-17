@@ -16,8 +16,6 @@ Gem::Specification.new do |spec|
 	DESC
 	spec.license = 'MIT'
 
-	spec.required_ruby_version = '>= 2.5'
-
 	source_code_uri = 'https://github.com/AlexWayfer/twitch_oauth2'
 
 	spec.homepage = source_code_uri
@@ -26,32 +24,28 @@ Gem::Specification.new do |spec|
 
 	spec.metadata['homepage_uri'] = spec.homepage
 
-	# TODO: Put your gem's CHANGELOG.md URL here.
-	# spec.metadata["changelog_uri"] = ""
+	spec.metadata['changelog_uri'] =
+		'https://github.com/AlexWayfer/twitch_oauth2/blob/master/CHANGELOG.md'
 
-	# Specify which files should be added to the gem when it is released.
-	# The `git ls-files -z` loads the files in the RubyGem that have been added
-	# into git.
-	spec.files = Dir.chdir(__dir__) do
-		`git ls-files -z`.split("\x0").reject do |file|
-			file.match(%r{^(test|spec|features)/})
-		end
-	end
-	spec.bindir        = 'exe'
-	spec.executables   = spec.files.grep(%r{^exe/}) { |file| File.basename(file) }
-	spec.require_paths = ['lib']
+	spec.files = Dir['lib/**/*.rb', 'README.md', 'LICENSE.txt', 'CHANGELOG.md']
+
+	spec.required_ruby_version = '>= 2.5'
 
 	spec.add_dependency 'faraday', '~> 1.0'
 	spec.add_dependency 'faraday_middleware', '~> 1.0'
 
-	spec.add_development_dependency 'codecov', '~> 0.1.0'
-	spec.add_development_dependency 'mdl', '~> 0.9.0'
 	spec.add_development_dependency 'pry-byebug', '~> 3.9'
-	spec.add_development_dependency 'rake', '~> 13.0'
+
+	spec.add_development_dependency 'bundler', '~> 2.0'
+	spec.add_development_dependency 'gem_toys', '~> 0.3.0'
+	spec.add_development_dependency 'toys', '~> 0.10.4'
+
+	spec.add_development_dependency 'codecov', '~> 0.2.1'
 	spec.add_development_dependency 'rspec', '~> 3.9'
-	spec.add_development_dependency 'rubocop', '~> 0.83.0'
+	spec.add_development_dependency 'simplecov', '~> 0.19.0'
+	spec.add_development_dependency 'vcr', '~> 6.0'
+
+	spec.add_development_dependency 'rubocop', '~> 0.89.0'
 	spec.add_development_dependency 'rubocop-performance', '~> 1.0'
 	spec.add_development_dependency 'rubocop-rspec', '~> 1.0'
-	spec.add_development_dependency 'simplecov', '~> 0.18.0'
-	spec.add_development_dependency 'vcr', '~> 5.1'
 end
