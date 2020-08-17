@@ -34,9 +34,7 @@ module TwitchOAuth2
 			if access_token
 				validate_result = validate access_token: access_token
 
-				if validate_result[:status] == 401
-					return refreshed_tokens(refresh_token: refresh_token)
-				end
+				return refreshed_tokens(refresh_token: refresh_token) if validate_result[:status] == 401
 
 				if validate_result[:expires_in].positive?
 					return { access_token: access_token, refresh_token: refresh_token }
@@ -63,7 +61,7 @@ module TwitchOAuth2
 				4. Insert below:
 			TEXT
 
-			code = STDIN.gets.chomp
+			code = $stdin.gets.chomp
 
 			token(code: code).slice(:access_token, :refresh_token)
 		end

@@ -63,9 +63,7 @@ describe TwitchOAuth2::Client do
 
 		context 'without tokens' do
 			before do
-				unless vcr_recording?
-					allow(STDIN).to receive(:gets).and_return 'any_code'
-				end
+				allow($stdin).to receive(:gets).and_return 'any_code' unless vcr_recording?
 			end
 
 			let(:access_token) { nil }
@@ -92,9 +90,7 @@ describe TwitchOAuth2::Client do
 
 			context 'with correct client credentials' do
 				it 'returns new tokens' do
-					unless vcr_recording?
-						allow(STDOUT).to receive(:puts).with(expected_instructions)
-					end
+					allow($stdout).to receive(:puts).with(expected_instructions) unless vcr_recording?
 
 					expect(result).to match expected_tokens
 				end

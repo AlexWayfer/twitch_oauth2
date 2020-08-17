@@ -1,5 +1,13 @@
 # TwitchOAuth2
 
+[![Cirrus CI - Base Branch Build Status](https://img.shields.io/cirrus/github/AlexWayfer/twitch_oauth2?style=flat-square)](https://cirrus-ci.com/github/AlexWayfer/twitch_oauth2)
+[![Codecov branch](https://img.shields.io/codecov/c/github/AlexWayfer/twitch_oauth2/master.svg?style=flat-square)](https://codecov.io/gh/AlexWayfer/twitch_oauth2)
+[![Code Climate](https://img.shields.io/codeclimate/maintainability/AlexWayfer/twitch_oauth2.svg?style=flat-square)](https://codeclimate.com/github/AlexWayfer/twitch_oauth2)
+[![Depfu](https://img.shields.io/depfu/AlexWayfer/twitch_oauth2?style=flat-square)](https://depfu.com/repos/github/AlexWayfer/twitch_oauth2)
+[![Inline docs](https://inch-ci.org/github/AlexWayfer/twitch_oauth2.svg?branch=master)](https://inch-ci.org/github/AlexWayfer/twitch_oauth2)
+[![license](https://img.shields.io/github/license/AlexWayfer/twitch_oauth2.svg?style=flat-square)](https://github.com/AlexWayfer/twitch_oauth2/blob/master/LICENSE.txt)
+[![Gem](https://img.shields.io/gem/v/twitch_oauth2.svg?style=flat-square)](https://rubygems.org/gems/twitch_oauth2)
+
 Twitch authentication with OAuth 2.
 Result tokens can be used for API libraries, chat libraries or something else.
 
@@ -75,19 +83,13 @@ for failed requests to API.
 ## Development
 
 After checking out the repo, run `bundle install` to install dependencies.
-Then, run `bundle exec rake spec` to run the tests.
 
-We're using [VCR](https://relishapp.com/vcr/vcr/docs) cassettes
-with filtered sensitive data, so you don't need for real credentials
-(like Twitch Client ID and Client Secret) for changing existing methods,
-but you need for them to add new requests.
-You can read how to get them [here][Twitch Authentication Documentation].
+Then, run `toys rspec` to run the tests.
 
-To install this gem onto your local machine, run `bundle exec rake install`.
-To release a new version, update the version number in `version.rb`,
-and then run `bundle exec rake release`, which will create a git tag
-for the version, push git commits and tags, and push the `.gem` file
-to [rubygems.org](https://rubygems.org).
+To install this gem onto your local machine, run `toys gem install`.
+
+To release a new version, run `toys gem release %version%`.
+See how it works [here](https://github.com/AlexWayfer/gem_toys#release).
 
 ## Contributing
 
