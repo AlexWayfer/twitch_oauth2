@@ -5,10 +5,10 @@ http_interactions:
     uri: https://id.twitch.tv/oauth2/token
     body:
       encoding: UTF-8
-      string: '{"client_id":"<CLIENT_ID>","client_secret":"<CLIENT_SECRET>","grant_type":"refresh_token","refresh_token":"foobar"}'
+      string: '{"client_id":"<CLIENT_ID>","client_secret":"<CLIENT_SECRET>","grant_type":"refresh_token","refresh_token":null}'
     headers:
       User-Agent:
-      - Faraday v1.0.1
+      - Faraday v1.1.0
       Content-Type:
       - application/json
   response:
@@ -17,7 +17,7 @@ http_interactions:
       message: Bad Request
     headers:
       date:
-      - Sun, 05 Apr 2020 13:40:32 GMT
+      - Wed, 04 Nov 2020 20:47:40 GMT
       content-type:
       - application/json
       content-length:
@@ -29,12 +29,11 @@ http_interactions:
       access-control-allow-origin:
       - "*"
       x-ctxlog-logid:
-      - 1-5e89dfd0-20ca745ad2657239414b8081
+      - 1-5fa3136c-3f192796523accd07aff3b19
     body:
       encoding: UTF-8
-      string: '{"status":400,"message":"Invalid refresh token"}
+      string: '{"status":400,"message":"missing refresh token"}
 
         '
-    http_version: null
-  recorded_at: Sun, 05 Apr 2020 13:40:32 GMT
-recorded_with: VCR 5.1.0
+  recorded_at: Wed, 04 Nov 2020 20:47:40 GMT
+recorded_with: VCR 6.0.0

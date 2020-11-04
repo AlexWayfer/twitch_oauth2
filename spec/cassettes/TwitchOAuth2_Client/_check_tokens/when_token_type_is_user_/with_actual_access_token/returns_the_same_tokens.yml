@@ -10,18 +10,18 @@ http_interactions:
       User-Agent:
       - Faraday v1.1.0
       Authorization:
-      - OAuth foo
+      - OAuth <ACTUAL_ACCESS_TOKEN>
   response:
     status:
-      code: 401
-      message: Unauthorized
+      code: 200
+      message: OK
     headers:
       date:
-      - Wed, 04 Nov 2020 19:55:17 GMT
+      - Wed, 04 Nov 2020 20:47:28 GMT
       content-type:
       - application/json
       content-length:
-      - '48'
+      - '259'
       connection:
       - keep-alive
       server:
@@ -29,11 +29,11 @@ http_interactions:
       access-control-allow-origin:
       - "*"
       x-ctxlog-logid:
-      - 1-5fa30725-656d72c37bf916c76cc35122
+      - 1-5fa31360-4f45205d09c71e910b463c2e
     body:
       encoding: UTF-8
-      string: '{"status":401,"message":"invalid access token"}
+      string: '{"client_id":"<CLIENT_ID>","login":"streamassistantbot","scopes":["bits:read","channel_commercial","channel_editor","channel_read","channel_stream","user:read:email","user_blocks_edit","user_read"],"user_id":"277558749","expires_in":11930}
 
         '
-  recorded_at: Wed, 04 Nov 2020 19:55:17 GMT
+  recorded_at: Wed, 04 Nov 2020 20:47:28 GMT
 recorded_with: VCR 6.0.0

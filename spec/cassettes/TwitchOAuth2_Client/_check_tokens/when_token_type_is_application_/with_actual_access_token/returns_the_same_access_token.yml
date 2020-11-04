@@ -17,7 +17,7 @@ http_interactions:
       message: OK
     headers:
       date:
-      - Wed, 04 Nov 2020 19:07:10 GMT
+      - Wed, 04 Nov 2020 20:46:13 GMT
       content-type:
       - application/json
       content-length:
@@ -29,11 +29,11 @@ http_interactions:
       access-control-allow-origin:
       - "*"
       x-ctxlog-logid:
-      - 1-5fa2fbde-050421f94ad509950e613351
+      - 1-5fa31315-79d2846a6fa99de80a957fd6
     body:
       encoding: UTF-8
-      string: '{"client_id":"<CLIENT_ID>","scopes":[],"expires_in":5555585}
+      string: '{"client_id":"<CLIENT_ID>","scopes":[],"expires_in":5641660}
 
         '
-  recorded_at: Wed, 04 Nov 2020 19:07:10 GMT
+  recorded_at: Wed, 04 Nov 2020 20:46:14 GMT
 recorded_with: VCR 6.0.0
