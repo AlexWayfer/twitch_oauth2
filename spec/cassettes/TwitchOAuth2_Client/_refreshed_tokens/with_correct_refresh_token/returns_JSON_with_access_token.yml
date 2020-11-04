@@ -8,7 +8,7 @@ http_interactions:
       string: '{"client_id":"<CLIENT_ID>","client_secret":"<CLIENT_SECRET>","grant_type":"refresh_token","refresh_token":"<REFRESH_TOKEN>"}'
     headers:
       User-Agent:
-      - Faraday v1.0.1
+      - Faraday v1.1.0
       Content-Type:
       - application/json
   response:
@@ -17,7 +17,7 @@ http_interactions:
       message: OK
     headers:
       date:
-      - Sun, 05 Apr 2020 13:40:31 GMT
+      - Wed, 04 Nov 2020 20:47:38 GMT
       content-type:
       - application/json
       content-length:
@@ -29,12 +29,11 @@ http_interactions:
       access-control-allow-origin:
       - "*"
       x-ctxlog-logid:
-      - 1-5e89dfcf-bd7ea74afd6fce371d8ba16c
+      - 1-5fa3136a-764285900762b8d40093640d
     body:
       encoding: UTF-8
-      string: '{"access_token":"<ACCESS_TOKEN>","expires_in":14273,"refresh_token":"<REFRESH_TOKEN>","scope":["bits:read","channel_commercial","channel_editor","channel_read","channel_stream","user:read:email","user_blocks_edit","user_read"],"token_type":"bearer"}
+      string: '{"access_token":"<ACCESS_TOKEN>","expires_in":15426,"refresh_token":"<REFRESH_TOKEN>","scope":["bits:read","channel_commercial","channel_editor","channel_read","channel_stream","user:read:email","user_blocks_edit","user_read"],"token_type":"bearer"}
 
         '
-    http_version: null
-  recorded_at: Sun, 05 Apr 2020 13:40:31 GMT
-recorded_with: VCR 5.1.0
+  recorded_at: Wed, 04 Nov 2020 20:47:38 GMT
+recorded_with: VCR 6.0.0

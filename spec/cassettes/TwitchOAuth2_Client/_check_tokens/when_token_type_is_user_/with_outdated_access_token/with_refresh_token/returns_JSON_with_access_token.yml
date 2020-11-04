@@ -8,7 +8,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Faraday v1.0.1
+      - Faraday v1.1.0
       Authorization:
       - OAuth 9y7bf00r4fof71czggal1e2wlo50q3
   response:
@@ -17,7 +17,7 @@ http_interactions:
       message: Unauthorized
     headers:
       date:
-      - Sun, 05 Apr 2020 13:32:35 GMT
+      - Wed, 04 Nov 2020 20:47:29 GMT
       content-type:
       - application/json
       content-length:
@@ -29,36 +29,35 @@ http_interactions:
       access-control-allow-origin:
       - "*"
       x-ctxlog-logid:
-      - 1-5e89ddf3-b367d8d0441513e0d873a850
+      - 1-5fa31361-653871c6410272da3526292d
     body:
       encoding: UTF-8
       string: '{"status":401,"message":"invalid access token"}
 
         '
-    http_version: null
-  recorded_at: Sun, 05 Apr 2020 13:32:35 GMT
+  recorded_at: Wed, 04 Nov 2020 20:47:29 GMT
 - request:
     method: post
     uri: https://id.twitch.tv/oauth2/token
     body:
       encoding: UTF-8
-      string: '{"client_id":"<CLIENT_ID>","client_secret":"<CLIENT_SECRET>","grant_type":"refresh_token","refresh_token":null}'
+      string: '{"client_id":"<CLIENT_ID>","client_secret":"<CLIENT_SECRET>","grant_type":"refresh_token","refresh_token":"<REFRESH_TOKEN>"}'
     headers:
       User-Agent:
-      - Faraday v1.0.1
+      - Faraday v1.1.0
       Content-Type:
       - application/json
   response:
     status:
-      code: 400
-      message: Bad Request
+      code: 200
+      message: OK
     headers:
       date:
-      - Sun, 05 Apr 2020 13:32:36 GMT
+      - Wed, 04 Nov 2020 20:47:30 GMT
       content-type:
       - application/json
       content-length:
-      - '49'
+      - '301'
       connection:
       - keep-alive
       server:
@@ -66,12 +65,11 @@ http_interactions:
       access-control-allow-origin:
       - "*"
       x-ctxlog-logid:
-      - 1-5e89ddf3-1298728949ace93f0d1be97c
+      - 1-5fa31362-1889ab3a29a0dc377baf5234
     body:
       encoding: UTF-8
-      string: '{"status":400,"message":"missing refresh token"}
+      string: '{"access_token":"<ACCESS_TOKEN>","expires_in":14796,"refresh_token":"<REFRESH_TOKEN>","scope":["bits:read","channel_commercial","channel_editor","channel_read","channel_stream","user:read:email","user_blocks_edit","user_read"],"token_type":"bearer"}
 
         '
-    http_version: null
-  recorded_at: Sun, 05 Apr 2020 13:32:36 GMT
-recorded_with: VCR 5.1.0
+  recorded_at: Wed, 04 Nov 2020 20:47:30 GMT
+recorded_with: VCR 6.0.0

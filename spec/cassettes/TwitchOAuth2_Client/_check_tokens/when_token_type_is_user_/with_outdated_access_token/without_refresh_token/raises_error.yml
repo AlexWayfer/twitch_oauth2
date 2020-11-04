@@ -17,7 +17,7 @@ http_interactions:
       message: Unauthorized
     headers:
       date:
-      - Wed, 04 Nov 2020 19:07:11 GMT
+      - Wed, 04 Nov 2020 20:47:31 GMT
       content-type:
       - application/json
       content-length:
@@ -29,19 +29,19 @@ http_interactions:
       access-control-allow-origin:
       - "*"
       x-ctxlog-logid:
-      - 1-5fa2fbdf-06cfd90f146e3058732c9b05
+      - 1-5fa31363-229d978d4761b52f10915192
     body:
       encoding: UTF-8
       string: '{"status":401,"message":"invalid access token"}
 
         '
-  recorded_at: Wed, 04 Nov 2020 19:07:11 GMT
+  recorded_at: Wed, 04 Nov 2020 20:47:31 GMT
 - request:
     method: post
     uri: https://id.twitch.tv/oauth2/token
     body:
       encoding: UTF-8
-      string: '{"client_id":"<CLIENT_ID>","client_secret":"<CLIENT_SECRET>","code":null,"grant_type":"client_credentials","redirect_uri":"http://localhost"}'
+      string: '{"client_id":"<CLIENT_ID>","client_secret":"<CLIENT_SECRET>","grant_type":"refresh_token","refresh_token":null}'
     headers:
       User-Agent:
       - Faraday v1.1.0
@@ -49,15 +49,15 @@ http_interactions:
       - application/json
   response:
     status:
-      code: 200
-      message: OK
+      code: 400
+      message: Bad Request
     headers:
       date:
-      - Wed, 04 Nov 2020 19:07:12 GMT
+      - Wed, 04 Nov 2020 20:47:32 GMT
       content-type:
       - application/json
       content-length:
-      - '93'
+      - '49'
       connection:
       - keep-alive
       server:
@@ -65,11 +65,11 @@ http_interactions:
       access-control-allow-origin:
       - "*"
       x-ctxlog-logid:
-      - 1-5fa2fbe0-2801d2ba1cd05b8f634ec1d2
+      - 1-5fa31364-1ac66f681699b6f42b7c8c9b
     body:
       encoding: UTF-8
-      string: '{"access_token":"<ACCESS_TOKEN>","expires_in":5322080,"token_type":"bearer"}
+      string: '{"status":400,"message":"missing refresh token"}
 
         '
-  recorded_at: Wed, 04 Nov 2020 19:07:12 GMT
+  recorded_at: Wed, 04 Nov 2020 20:47:32 GMT
 recorded_with: VCR 6.0.0

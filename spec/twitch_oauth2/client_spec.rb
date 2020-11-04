@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe TwitchOAuth2::Client do
+describe TwitchOAuth2::Client, :vcr do
 	subject(:client) do
 		described_class.new(
 			client_id: client_id,
@@ -27,23 +27,6 @@ describe TwitchOAuth2::Client do
 
 	let(:expected_refresh_token) do
 		vcr_recording? ? a_string_matching(/[a-z0-9]{30,}/) : '<REFRESH_TOKEN>'
-	end
-
-	def example_group_descriptions(example_group)
-		example_group_description = example_group.description
-		return if example_group_description == described_class.name
-
-		[send(__method__, example_group.superclass), example_group_description]
-			.compact
-	end
-
-	around do |example|
-		cassette_name =
-			example_group_descriptions(example.example_group)
-				.join('/').delete('#`').tr(' ', '_')
-		VCR.use_cassette(cassette_name) do
-			example.run
-		end
 	end
 
 	describe '#check_tokens' do
@@ -91,14 +74,12 @@ describe TwitchOAuth2::Client do
 				end
 
 				context 'with correct client credentials' do
-					it 'returns new tokens' do
+					before do
 						allow($stdout).to receive(:puts).with(expected_instructions) unless vcr_recording?
-
-						expect(result).to match expected_tokens
 					end
 
-					it 'outputs instructions' do
-						expect { result }.to output(expected_instructions).to_stdout
+					it 'returns new tokens' do
+						expect(result).to match expected_tokens
 					end
 				end
 
