@@ -30,18 +30,18 @@ module TwitchOAuth2
 			@state = SecureRandom.alphanumeric(32)
 		end
 
-		def check_tokens(access_token: nil, refresh_token: nil)
+		def check_tokens(access_token: nil, refresh_token: nil, token_type: :user)
 			if access_token
 				validate_result = validate access_token: access_token
 
-				return refreshed_tokens(refresh_token: refresh_token) if validate_result[:status] == 401
-
-				if validate_result[:expires_in].positive?
+				if validate_result[:status] == 401
+					return refreshed_tokens(refresh_token: refresh_token) if token_type == :user
+				elsif validate_result[:expires_in].positive?
 					return { access_token: access_token, refresh_token: refresh_token }
 				end
 			end
 
-			flow
+			flow token_type: token_type
 		end
 
 		def refreshed_tokens(refresh_token:)
@@ -50,7 +50,13 @@ module TwitchOAuth2
 
 		private
 
-		def flow
+		def flow(token_type:)
+			code = request_code if token_type == :user
+
+			token(code: code, token_type: token_type).slice(:access_token, :refresh_token)
+		end
+
+		def request_code
 			link = authorize
 
 			puts <<~TEXT
@@ -61,9 +67,7 @@ module TwitchOAuth2
 				4. Insert below:
 			TEXT
 
-			code = $stdin.gets.chomp
-
-			token(code: code).slice(:access_token, :refresh_token)
+			$stdin.gets.chomp
 		end
 
 		def authorize
@@ -81,17 +85,27 @@ module TwitchOAuth2
 			raise Error, response.body[:message]
 		end
 
-		def token(code:)
+		def token(code:, token_type:)
 			response = CONNECTION.post(
 				'token',
 				client_id: @client_id,
 				client_secret: @client_secret,
 				code: code,
-				grant_type: :authorization_code,
+				grant_type: grant_type_by_token_type(token_type),
 				redirect_uri: @redirect_uri
 			)
 
-			response.body
+			return response.body if response.success?
+
+			raise Error, response.body[:message]
+		end
+
+		def grant_type_by_token_type(token_type)
+			case token_type
+			when :user then :authorization_code
+			when :application then :client_credentials
+			else raise Error, 'unsupported token type'
+			end
 		end
 
 		def validate(access_token:)

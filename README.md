@@ -55,14 +55,24 @@ tokens = previously_saved_tokens
 # => { access_token: 'abcdef', refresh_token: 'ghikjl' }
 # Can be empty.
 
-client.check_tokens **tokens
+client.check_tokens **tokens, token_type: :user
 ```
+
+`:token_type` is optional and is `:application` by default,
+but a number of available API end-points is limited in this case.
+
+Also, Application Access Token has no `refresh_token`, but this gem just receive a new one
+if a given one is invalid.
 
 #### The first run
 
 You can pass nothing to `#check_tokens`, then client will generate new ones.
-You will be asked to open a Twitch link in a browser and login as user
-for whom tokens are intended.
+
+If you've specified `:token_type` as `:application` or have not specify it at all (default),
+there will be an Application Access Token (without refresh token).
+
+Otherwise, for User Access Token you will be asked to open a Twitch link in a browser
+and login as user for whom tokens are intended.
 
 #### Reusing tokens
 
@@ -79,6 +89,8 @@ client.refreshed_tokens refresh_token: 'ghikjl'
 
 This is used internally in `#check_tokens`, and can be used separately
 for failed requests to API.
+
+And, because Application Access Tokens have no refresh tokens — this method will not work for them.
 
 ## Development
 
