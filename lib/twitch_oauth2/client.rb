@@ -26,8 +26,6 @@ module TwitchOAuth2
 			@client_secret = client_secret
 			@redirect_uri = redirect_uri
 			@scopes = scopes
-
-			@state = SecureRandom.alphanumeric(32)
 		end
 
 		def check_tokens(access_token: nil, refresh_token: nil, token_type: :user)
