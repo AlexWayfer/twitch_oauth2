@@ -1,0 +1,39 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://id.twitch.tv/oauth2/validate
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.1.0
+      Authorization:
+      - OAuth <ACTUAL_APPLICATION_ACCESS_TOKEN>
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      date:
+      - Wed, 04 Nov 2020 19:07:10 GMT
+      content-type:
+      - application/json
+      content-length:
+      - '80'
+      connection:
+      - keep-alive
+      server:
+      - nginx/1.14.1
+      access-control-allow-origin:
+      - "*"
+      x-ctxlog-logid:
+      - 1-5fa2fbde-050421f94ad509950e613351
+    body:
+      encoding: UTF-8
+      string: '{"client_id":"<CLIENT_ID>","scopes":[],"expires_in":5555585}
+
+        '
+  recorded_at: Wed, 04 Nov 2020 19:07:10 GMT
+recorded_with: VCR 6.0.0

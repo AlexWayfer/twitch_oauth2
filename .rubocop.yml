@@ -43,6 +43,6 @@ RSpec/FilePath:
   CustomTransform:
     TwitchOAuth2: twitch_oauth2
 RSpec/NestedGroups:
-  Max: 4
+  Max: 10
 RSpec/MultipleMemoizedHelpers:
   Max: 30

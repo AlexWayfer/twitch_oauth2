@@ -14,6 +14,7 @@ ENV['TWITCH_CLIENT_ID'] ||= 'test_client_id'
 ENV['TWITCH_CLIENT_SECRET'] ||= 'test_client_secret'
 ENV['TWITCH_ACCESS_TOKEN'] ||= 'test_access_token'
 ENV['TWITCH_REFRESH_TOKEN'] ||= 'test_refresh_token'
+ENV['TWITCH_APPLICATION_ACCESS_TOKEN'] ||= 'test_application_access_token'
 
 RSpec::Matchers.define_negated_matcher :not_output, :output
 
@@ -39,6 +40,10 @@ VCR.configure do |config|
 
 	config.filter_sensitive_data('<ACTUAL_REFRESH_TOKEN>') do
 		ENV['TWITCH_REFRESH_TOKEN']
+	end
+
+	config.filter_sensitive_data('<ACTUAL_APPLICATION_ACCESS_TOKEN>') do
+		ENV['TWITCH_APPLICATION_ACCESS_TOKEN']
 	end
 
 	config.filter_sensitive_data('<CODE>') do |interaction|
