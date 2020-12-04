@@ -46,26 +46,29 @@ module TwitchOAuth2
 			refresh(refresh_token: refresh_token).slice(:access_token, :refresh_token)
 		end
 
+		def token(token_type:, code: nil)
+			response = CONNECTION.post(
+				'token',
+				client_id: @client_id,
+				client_secret: @client_secret,
+				code: code,
+				grant_type: grant_type_by_token_type(token_type),
+				redirect_uri: @redirect_uri
+			)
+
+			return response.body if response.success?
+
+			raise Error, response.body[:message]
+		end
+
 		private
 
 		def flow(token_type:)
-			code = request_code if token_type == :user
+			if token_type == :user
+				raise Error.new('Use `error.metadata[:link]` for getting new tokens', link: authorize)
+			end
 
-			token(code: code, token_type: token_type).slice(:access_token, :refresh_token)
-		end
-
-		def request_code
-			link = authorize
-
-			puts <<~TEXT
-				1. Open URL in your browser:
-					#{link}
-				2. Login to Twitch.
-				3. Copy the `code` parameter from redirected URL.
-				4. Insert below:
-			TEXT
-
-			$stdin.gets.chomp
+			token(token_type: token_type).slice(:access_token, :refresh_token)
 		end
 
 		def authorize
@@ -79,21 +82,6 @@ module TwitchOAuth2
 
 			location = response.headers[:location]
 			return location if location
-
-			raise Error, response.body[:message]
-		end
-
-		def token(code:, token_type:)
-			response = CONNECTION.post(
-				'token',
-				client_id: @client_id,
-				client_secret: @client_secret,
-				code: code,
-				grant_type: grant_type_by_token_type(token_type),
-				redirect_uri: @redirect_uri
-			)
-
-			return response.body if response.success?
 
 			raise Error, response.body[:message]
 		end

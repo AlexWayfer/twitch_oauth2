@@ -47,10 +47,6 @@ describe TwitchOAuth2::Client, :vcr do
 			end
 
 			context 'without tokens' do
-				before do
-					allow($stdin).to receive(:gets).and_return 'any_code' unless vcr_recording?
-				end
-
 				let(:access_token) { nil }
 				let(:refresh_token) { nil }
 
@@ -63,35 +59,16 @@ describe TwitchOAuth2::Client, :vcr do
 					)
 				end
 
-				let(:expected_instructions) do
-					<<~TEXT
-						1. Open URL in your browser:
-							https://www.twitch.tv/login?client_id=#{client_id}&redirect_params=#{redirect_params}
-						2. Login to Twitch.
-						3. Copy the `code` parameter from redirected URL.
-						4. Insert below:
-					TEXT
+				let(:expected_link) do
+					"https://www.twitch.tv/login?client_id=#{client_id}&redirect_params=#{redirect_params}"
 				end
 
-				context 'with correct client credentials' do
-					before do
-						allow($stdout).to receive(:puts).with(expected_instructions) unless vcr_recording?
-					end
-
-					it 'returns new tokens' do
-						expect(result).to match expected_tokens
-					end
-				end
-
-				context 'with incorrect client credentials' do
-					let(:client_id) { nil }
-					let(:client_secret) { nil }
-
-					it 'raises error without instructions' do
-						expect { result }
-							.to not_output(expected_instructions).to_stdout
-							.and raise_error TwitchOAuth2::Error, 'missing client id'
-					end
+				it 'raises an error with link' do
+					expect { result }.to raise_error an_instance_of(TwitchOAuth2::Error)
+						.and having_attributes(
+							message: 'Use `error.metadata[:link]` for getting new tokens',
+							metadata: { link: expected_link }
+						)
 				end
 			end
 
@@ -218,6 +195,91 @@ describe TwitchOAuth2::Client, :vcr do
 			it 'raises error' do
 				expect { result }
 					.to raise_error TwitchOAuth2::Error, 'missing refresh token'
+			end
+		end
+	end
+
+	describe '#token' do
+		subject(:result) { client.token(token_type: token_type, code: code) }
+
+		context 'when `token_type` is `user`' do
+			let(:token_type) { :user }
+
+			let(:expected_tokens) do
+				{
+					access_token: expected_access_token,
+					refresh_token: expected_refresh_token
+				}
+			end
+
+			context 'without code' do
+				let(:code) { nil }
+
+				it 'raises an error' do
+					expect { result }.to raise_error TwitchOAuth2::Error, 'missing code'
+				end
+			end
+
+			context 'with code' do
+				let(:code) do
+					return 'any_code' unless vcr_recording?
+
+					client.check_tokens(token_type: token_type, access_token: nil, refresh_token: nil)
+				rescue TwitchOAuth2::Error => e
+					raise e unless (link = e.metadata[:link])
+
+					puts <<~TEXT
+
+						Please, open this link:
+
+							#{link}
+
+						authorize, and paste here `code` param from redirected `localhost` URL.
+					TEXT
+
+					gets.chomp
+				end
+
+				let(:refresh_token) { 42 }
+
+				it 'returns new tokens' do
+					expect(result).to include expected_tokens
+				end
+			end
+		end
+
+		context 'when `token_type` is `application`' do
+			let(:token_type) { :application }
+			let(:code) { nil }
+
+			let(:expected_tokens) do
+				{
+					access_token: expected_access_token
+				}
+			end
+
+			context 'with correct client credentials' do
+				it 'returns new tokens' do
+					expect(result).to include expected_tokens
+				end
+			end
+
+			context 'with incorrect client credentials' do
+				let(:client_id) { nil }
+				let(:client_secret) { nil }
+
+				it 'raises error' do
+					expect { result }.to raise_error TwitchOAuth2::Error, 'missing client id'
+				end
+			end
+		end
+
+		context 'when `token_type` is unsupported' do
+			let(:token_type) { :foobar }
+			let(:code) { nil }
+
+			it 'raises error' do
+				expect { result }.to raise_error TwitchOAuth2::Error, 'unsupported token type'
 			end
 		end
 	end

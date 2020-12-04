@@ -1,0 +1,39 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://id.twitch.tv/oauth2/token
+    body:
+      encoding: UTF-8
+      string: '{"client_id":"<CLIENT_ID>","client_secret":"<CLIENT_SECRET>","code":null,"grant_type":"authorization_code","redirect_uri":"http://localhost"}'
+    headers:
+      User-Agent:
+      - Faraday v1.1.0
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 400
+      message: Bad Request
+    headers:
+      date:
+      - Fri, 04 Dec 2020 20:56:29 GMT
+      content-type:
+      - application/json
+      content-length:
+      - '40'
+      connection:
+      - keep-alive
+      server:
+      - nginx/1.14.1
+      access-control-allow-origin:
+      - "*"
+      x-ctxlog-logid:
+      - 1-5fcaa27d-54e65fcd45f56b0c11be6687
+    body:
+      encoding: UTF-8
+      string: '{"status":400,"message":"missing code"}
+
+        '
+  recorded_at: Fri, 04 Dec 2020 20:56:29 GMT
+recorded_with: VCR 6.0.0

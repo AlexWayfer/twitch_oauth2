@@ -50,6 +50,12 @@ VCR.configure do |config|
 		URI.decode_www_form(interaction.request.body).to_h['code']
 	end
 
+	config.filter_sensitive_data('<CODE>') do |interaction|
+		JSON.parse(interaction.request.body).to_h['code']
+	rescue JSON::ParserError
+		## this is not JSON
+	end
+
 	config.filter_sensitive_data('<ACCESS_TOKEN>') do |interaction|
 		if interaction.response.headers['content-type'].include? 'application/json'
 			JSON.parse(interaction.response.body)['access_token']

@@ -15,7 +15,7 @@ http_interactions:
       message: Found
     headers:
       date:
-      - Wed, 04 Nov 2020 20:47:04 GMT
+      - Fri, 04 Dec 2020 20:56:30 GMT
       content-type:
       - text/html; charset=utf-8
       content-length:
@@ -47,19 +47,19 @@ http_interactions:
         _twitch_session_id=; Path=/; Domain=twitch.tv; Expires=Thu, 01 Jan 1970 00:00:00
         GMT; Max-Age=0; Secure
       x-ctxlog-logid:
-      - 1-5fa31348-1cd69e9c45600fde0e3102b9
+      - 1-5fcaa27e-4491460462dfd7af5a5868bf
       x-frame-options:
       - DENY
     body:
       encoding: UTF-8
       string: "<a href=\"https://www.twitch.tv/login?client_id=<CLIENT_ID>&amp;redirect_params=client_id%3D<CLIENT_ID>%26redirect_uri%3Dhttp%253A%252F%252Flocalhost%26response_type%3Dcode%26scope%3Duser%253Aread%253Aemail%2Bbits%253Aread\">Found</a>.\n\n"
-  recorded_at: Wed, 04 Nov 2020 20:47:04 GMT
+  recorded_at: Fri, 04 Dec 2020 20:56:30 GMT
 - request:
     method: post
     uri: https://id.twitch.tv/oauth2/token
     body:
       encoding: UTF-8
-      string: '{"client_id":"<CLIENT_ID>","client_secret":"<CLIENT_SECRET>","code":"kivls186uto3ph8bueg0nhc85861dx","grant_type":"authorization_code","redirect_uri":"http://localhost"}'
+      string: '{"client_id":"<CLIENT_ID>","client_secret":"<CLIENT_SECRET>","code":"<CODE>","grant_type":"authorization_code","redirect_uri":"http://localhost"}'
     headers:
       User-Agent:
       - Faraday v1.1.0
@@ -71,7 +71,7 @@ http_interactions:
       message: OK
     headers:
       date:
-      - Wed, 04 Nov 2020 20:47:22 GMT
+      - Fri, 04 Dec 2020 20:56:44 GMT
       content-type:
       - application/json
       content-length:
@@ -83,11 +83,11 @@ http_interactions:
       access-control-allow-origin:
       - "*"
       x-ctxlog-logid:
-      - 1-5fa3135a-01c2332355a1dba35d1ddd0b
+      - 1-5fcaa28c-6631d1862ccec6ae3256053e
     body:
       encoding: UTF-8
-      string: '{"access_token":"<ACCESS_TOKEN>","expires_in":15142,"refresh_token":"<REFRESH_TOKEN>","scope":["bits:read","user:read:email"],"token_type":"bearer"}
+      string: '{"access_token":"<ACCESS_TOKEN>","expires_in":13933,"refresh_token":"<REFRESH_TOKEN>","scope":["bits:read","user:read:email"],"token_type":"bearer"}
 
         '
-  recorded_at: Wed, 04 Nov 2020 20:47:22 GMT
+  recorded_at: Fri, 04 Dec 2020 20:56:45 GMT
 recorded_with: VCR 6.0.0

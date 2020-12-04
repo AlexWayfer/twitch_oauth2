@@ -1,21 +1,23 @@
 ---
 http_interactions:
 - request:
-    method: get
-    uri: https://id.twitch.tv/oauth2/authorize?client_id&redirect_uri=http%3A%2F%2Flocalhost&response_type=code&scope=user%3Aread%3Aemail+bits%3Aread
+    method: post
+    uri: https://id.twitch.tv/oauth2/token
     body:
-      encoding: US-ASCII
-      string: ''
+      encoding: UTF-8
+      string: '{"client_id":null,"client_secret":null,"code":null,"grant_type":"client_credentials","redirect_uri":"http://localhost"}'
     headers:
       User-Agent:
       - Faraday v1.1.0
+      Content-Type:
+      - application/json
   response:
     status:
       code: 400
       message: Bad Request
     headers:
       date:
-      - Wed, 04 Nov 2020 20:47:25 GMT
+      - Fri, 04 Dec 2020 20:56:46 GMT
       content-type:
       - application/json
       content-length:
@@ -27,11 +29,11 @@ http_interactions:
       access-control-allow-origin:
       - "*"
       x-ctxlog-logid:
-      - 1-5fa3135d-676053c7238c03f85601e387
+      - 1-5fcaa28e-69eae7e87aa6ac8a3910ad34
     body:
       encoding: UTF-8
       string: '{"status":400,"message":"missing client id"}
 
         '
-  recorded_at: Wed, 04 Nov 2020 20:47:25 GMT
+  recorded_at: Fri, 04 Dec 2020 20:56:46 GMT
 recorded_with: VCR 6.0.0

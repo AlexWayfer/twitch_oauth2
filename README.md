@@ -71,8 +71,16 @@ You can pass nothing to `#check_tokens`, then client will generate new ones.
 If you've specified `:token_type` as `:application` or have not specify it at all (default),
 there will be an Application Access Token (without refresh token).
 
-Otherwise, for User Access Token you will be asked to open a Twitch link in a browser
-and login as user for whom tokens are intended.
+Otherwise, for User Access Token here will be raised a `TwitchOAuth2::Error` with Twitch link
+inside `#metadata[:link]`.
+
+If you have a web-application with N users, you can redirect them to this link
+and use `redirect_uri` to your application for callbacks.
+
+Otherwise, if you have something like CLI tool, you can print instructions with a link for user.
+
+Then you can use `#token(token_type: :user, code: 'a code from params in redirect uri')`
+and get your `:access_token` and `:refresh_token`.
 
 #### Reusing tokens
 
