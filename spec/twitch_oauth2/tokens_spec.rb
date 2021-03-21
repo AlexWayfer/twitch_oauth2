@@ -5,9 +5,10 @@ describe TwitchOAuth2::Tokens, :vcr do
 		described_class.new(
 			client: client,
 			access_token: initial_access_token,
-			refresh_token: refresh_token,
+			refresh_token: initial_refresh_token,
 			token_type: token_type,
-			scopes: scopes
+			scopes: scopes,
+			on_update: on_update
 		)
 	end
 
@@ -23,6 +24,7 @@ describe TwitchOAuth2::Tokens, :vcr do
 	let(:client_secret) { ENV['TWITCH_CLIENT_SECRET'] }
 	let(:redirect_uri) { 'http://localhost' }
 	let(:scopes) { %w[user:read:email bits:read] }
+	let(:on_update) { instance_double(Proc) }
 
 	let(:outdated_access_token) { '9y7bf00r4fof71czggal1e2wlo50q3' }
 
@@ -37,6 +39,24 @@ describe TwitchOAuth2::Tokens, :vcr do
 		vcr_recording? ? a_string_matching(/[a-z0-9]{30,}/) : '<REFRESH_TOKEN>'
 	end
 
+	before do
+		allow(on_update).to receive(:call).with(tokens)
+	end
+
+	shared_examples '`on_update` hook' do |received_times:|
+		describe '`on_update` hook' do
+			before do
+				subject
+			rescue TwitchOAuth2::Error
+				## it's OK
+			end
+
+			it "called #{received_times} times" do
+				expect(on_update).to have_received(:call).exactly(received_times).times
+			end
+		end
+	end
+
 	describe '#access_token' do
 		subject(:access_token) { tokens.access_token }
 
@@ -46,7 +66,7 @@ describe TwitchOAuth2::Tokens, :vcr do
 
 			context 'without initial tokens' do
 				let(:initial_access_token) { nil }
-				let(:refresh_token) { nil }
+				let(:initial_refresh_token) { nil }
 
 				let(:redirect_params) do
 					URI.encode_www_form_component URI.encode_www_form(
@@ -68,41 +88,49 @@ describe TwitchOAuth2::Tokens, :vcr do
 							metadata: { link: expected_link }
 						)
 				end
+
+				include_examples '`on_update` hook', received_times: 0
 			end
 
 			context 'with actual initial access token' do
 				let(:initial_access_token) { actual_access_token }
-				let(:refresh_token) { 42 }
+				let(:initial_refresh_token) { 42 }
 
 				it 'returns the same access token' do
 					expect(access_token).to eq initial_access_token
 				end
+
+				include_examples '`on_update` hook', received_times: 0
 			end
 
 			context 'with outdated initial access token' do
 				let(:initial_access_token) { outdated_access_token }
 
 				context 'with refresh token' do
-					let(:refresh_token) { ENV['TWITCH_REFRESH_TOKEN'] }
+					let(:initial_refresh_token) { ENV['TWITCH_REFRESH_TOKEN'] }
 
 					it 'returns new access token' do
 						expect(access_token).to match expected_access_token
 					end
+
+					include_examples '`on_update` hook', received_times: 1
 				end
 
 				context 'without refresh token' do
-					let(:refresh_token) { nil }
+					let(:initial_refresh_token) { nil }
 
 					it 'raises error' do
 						expect { access_token }.to raise_error TwitchOAuth2::Error, 'missing refresh token'
 					end
+
+					include_examples '`on_update` hook', received_times: 0
 				end
 			end
 		end
 
 		context 'when `token_type` is `application`' do
 			let(:token_type) { :application }
-			let(:refresh_token) { nil }
+			let(:initial_refresh_token) { nil }
 			let(:actual_access_token) { ENV['TWITCH_APPLICATION_ACCESS_TOKEN'] }
 
 			context 'without initial access token' do
@@ -112,6 +140,8 @@ describe TwitchOAuth2::Tokens, :vcr do
 					it 'returns new access token' do
 						expect(access_token).to match expected_access_token
 					end
+
+					include_examples '`on_update` hook', received_times: 1
 				end
 
 				context 'with incorrect client credentials' do
@@ -121,6 +151,8 @@ describe TwitchOAuth2::Tokens, :vcr do
 					it 'raises error' do
 						expect { access_token }.to raise_error TwitchOAuth2::Error, 'missing client id'
 					end
+
+					include_examples '`on_update` hook', received_times: 0
 				end
 			end
 
@@ -130,6 +162,8 @@ describe TwitchOAuth2::Tokens, :vcr do
 				it 'returns the same access token' do
 					expect(access_token).to eq initial_access_token
 				end
+
+				include_examples '`on_update` hook', received_times: 0
 			end
 
 			context 'with outdated initial access token' do
@@ -138,19 +172,23 @@ describe TwitchOAuth2::Tokens, :vcr do
 				it 'returns new tokens' do
 					expect(access_token).to match expected_access_token
 				end
+
+				include_examples '`on_update` hook', received_times: 1
 			end
 		end
 
 		context 'when `token_type` is unsupported' do
 			let(:token_type) { :foobar }
 			let(:initial_access_token) { 'foo' }
-			let(:refresh_token) { 'bar' }
+			let(:initial_refresh_token) { 'bar' }
 
 			it 'raises error' do
 				expect { access_token }.to raise_error(
 					TwitchOAuth2::UnsupportedTokenTypeError, 'Unsupported token type: `foobar`'
 				)
 			end
+
+			include_examples '`on_update` hook', received_times: 0
 		end
 	end
 
@@ -162,7 +200,7 @@ describe TwitchOAuth2::Tokens, :vcr do
 		let(:access_token) { tokens.access_token }
 
 		let(:initial_access_token) { nil }
-		let(:refresh_token) { nil }
+		let(:initial_refresh_token) { nil }
 
 		context 'when `token_type` is `user`' do
 			let(:token_type) { :user }
@@ -195,7 +233,7 @@ describe TwitchOAuth2::Tokens, :vcr do
 					$stdin.gets.chomp
 				end
 
-				let(:refresh_token) { 42 }
+				let(:initial_refresh_token) { 42 }
 
 				it 'returns new tokens' do
 					code_assignment
@@ -233,6 +271,37 @@ describe TwitchOAuth2::Tokens, :vcr do
 				expect { code_assignment }.to raise_error(
 					TwitchOAuth2::UnsupportedTokenTypeError, 'Unsupported token type: `foobar`'
 				)
+			end
+		end
+	end
+
+	describe '#refresh_token' do
+		subject(:refresh_token) { tokens.refresh_token }
+
+		context 'when `token_type` is `user`' do
+			let(:token_type) { :user }
+			let(:actual_access_token) { ENV['TWITCH_ACCESS_TOKEN'] }
+
+			context 'without initial tokens' do
+				let(:initial_access_token) { nil }
+				let(:initial_refresh_token) { nil }
+
+				it 'returns initial token' do
+					expect(refresh_token).to eq initial_refresh_token
+				end
+
+				include_examples '`on_update` hook', received_times: 0
+			end
+
+			context 'with initial refresh token' do
+				let(:initial_access_token) { actual_access_token }
+				let(:initial_refresh_token) { 42 }
+
+				it 'returns initial token' do
+					expect(refresh_token).to eq initial_refresh_token
+				end
+
+				include_examples '`on_update` hook', received_times: 0
 			end
 		end
 	end

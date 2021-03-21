@@ -3,16 +3,26 @@
 module TwitchOAuth2
 	## Class for tokens and their refreshing, using provided client
 	class Tokens
-		attr_reader :client, :token_type
+		## `refresh_token` for `on_update`, but it can be better to make getter with logic
+		## like for `access_token`, but there can be troubles:
+		## * right now `refresh_token` is kind of constant, but it can have TTL in the future;
+		## * right now there is no `refresh_token` for `:application` tokens, but it can appears
+		##   in the future.
+		attr_reader :client, :token_type, :refresh_token
 
+		## I don't know how to make it shorter
+		# rubocop:disable Metrics/ParameterLists
 		def initialize(
-			client:, access_token: nil, refresh_token: nil, token_type: :application, scopes: nil
+			client:, access_token: nil, refresh_token: nil, token_type: :application, scopes: nil,
+			on_update: nil
 		)
+			# rubocop:enable Metrics/ParameterLists
 			@client = client.is_a?(Hash) ? Client.new(**client) : client
 			@access_token = access_token
 			@refresh_token = refresh_token
 			@token_type = token_type
 			@scopes = scopes
+			@on_update = on_update
 
 			@expires_at = nil
 		end
@@ -49,6 +59,7 @@ module TwitchOAuth2
 			case @token_type
 			when :user
 				assign_tokens @client.refresh(refresh_token: @refresh_token)
+				@on_update&.call(self)
 			when :application
 				request_new_tokens
 			else
@@ -58,6 +69,7 @@ module TwitchOAuth2
 
 		def request_new_tokens
 			assign_tokens @client.flow token_type: @token_type, scopes: @scopes
+			@on_update&.call(self)
 		end
 
 		def assign_tokens(data)
