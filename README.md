@@ -35,7 +35,16 @@ gem install twitch_oauth2
 
 ## Usage
 
+Since version `0.4.0`, the main object here is `TwitchOAuth2::Tokens` which receives
+and internally uses `client` for necessary requests. This approach allows:
+
+*   get an actual `access_token` with validations, refreshing and other things inside;
+*   share and reuse an instance of this class, for example between API and IRC clients;
+*   initialize 2 instances for user token and application token, but with the same `client` object.
+
 ### Initialization
+
+Client, for requests:
 
 ```ruby
 require 'twitch_oauth2'
@@ -43,30 +52,31 @@ require 'twitch_oauth2'
 client = TwitchOAuth2::Client.new(
   client_id: 'application_client_id',
   client_secret: 'application_client_secret',
-  scopes: %w[user:read:email bits:read] # default is `nil`
   redirect_uri: 'application_redirect_uri' # default is `http://localhost`
 )
 ```
 
-### Check tokens
+Tokens, for their storage and refreshing:
 
 ```ruby
-tokens = previously_saved_tokens
-# => { access_token: 'abcdef', refresh_token: 'ghikjl' }
-# Can be empty.
-
-client.check_tokens **tokens, token_type: :user
+tokens = TwitchOAuth2::Tokens.new(
+  client: client, # initialized above, or can be a `Hash` with values for `Client` initialization
+  # all other arguments are optional
+  access_token: 'somewhere_received_access_token', # default is `nil`
+  refresh_token: 'refresh_token_from_the_same_place', # default is `nil`
+  token_type: :user, # default is `:application`
+  scopes: %w[user:read:email bits:read] # default is `nil`, but it's not so useful
+)
 ```
 
-`:token_type` is optional and is `:application` by default,
-but a number of available API end-points is limited in this case.
+### Get tokens
 
-Also, Application Access Token has no `refresh_token`, but this gem just receive a new one
-if a given one is invalid.
+The main method is `Tokens#access_token`: if there is no `access_token` from initialization
+or it's incorrect — method will refresh it internally and return the value.
 
 #### The first run
 
-You can pass nothing to `#check_tokens`, then client will generate new ones.
+You can pass nothing to `Tokens.new`, then client will generate new ones.
 
 If you've specified `:token_type` as `:application` or have not specify it at all (default),
 there will be an Application Access Token (without refresh token).
@@ -79,12 +89,12 @@ and use `redirect_uri` to your application for callbacks.
 
 Otherwise, if you have something like CLI tool, you can print instructions with a link for user.
 
-Then you can use `#token(token_type: :user, code: 'a code from params in redirect uri')`
-and get your `:access_token` and `:refresh_token`.
+Then you can use `tokens.code = 'a code from params in redirect uri'`
+and `tokens.access_token` will be available.
 
 #### Reusing tokens
 
-Then, if you pass tokens, client will validate them and return themselves
+Then, or if you pass tokens to initialization, client will validate them and return themselves
 or refresh and return new ones.
 
 ### Explicitly refresh tokens

@@ -1,0 +1,39 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://id.twitch.tv/oauth2/validate
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.3.0
+      Authorization:
+      - 'OAuth '
+  response:
+    status:
+      code: 401
+      message: Unauthorized
+    headers:
+      date:
+      - Sun, 21 Mar 2021 00:13:26 GMT
+      content-type:
+      - application/json
+      content-length:
+      - '55'
+      connection:
+      - keep-alive
+      server:
+      - nginx/1.18.0
+      access-control-allow-origin:
+      - "*"
+      x-ctxlog-logid:
+      - 1-60568fa6-483883a145f611527572ef88
+    body:
+      encoding: UTF-8
+      string: '{"status":401,"message":"missing authorization token"}
+
+        '
+  recorded_at: Sun, 21 Mar 2021 00:13:26 GMT
+recorded_with: VCR 6.0.0

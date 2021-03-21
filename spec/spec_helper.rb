@@ -22,7 +22,10 @@ require 'vcr'
 
 VCR.configure do |config|
 	config.cassette_library_dir = "#{__dir__}/cassettes"
-	config.default_cassette_options = { record_on_error: false }
+	config.default_cassette_options = {
+		record_on_error: false,
+		allow_unused_http_interactions: false
+	}
 	config.hook_into :faraday
 	config.configure_rspec_metadata!
 
