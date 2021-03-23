@@ -1,0 +1,75 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://id.twitch.tv/oauth2/validate
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.3.0
+      Authorization:
+      - OAuth 9y7bf00r4fof71czggal1e2wlo50q3
+  response:
+    status:
+      code: 401
+      message: Unauthorized
+    headers:
+      date:
+      - Tue, 23 Mar 2021 22:22:01 GMT
+      content-type:
+      - application/json
+      content-length:
+      - '48'
+      connection:
+      - keep-alive
+      server:
+      - nginx/1.18.0
+      access-control-allow-origin:
+      - "*"
+      x-ctxlog-logid:
+      - 1-605a6a09-7f0d73bd363ce9d431503c79
+    body:
+      encoding: UTF-8
+      string: '{"status":401,"message":"invalid access token"}
+
+        '
+  recorded_at: Tue, 23 Mar 2021 22:22:01 GMT
+- request:
+    method: post
+    uri: https://id.twitch.tv/oauth2/token
+    body:
+      encoding: UTF-8
+      string: '{"client_id":"<CLIENT_ID>","client_secret":"<CLIENT_SECRET>","grant_type":"refresh_token","refresh_token":"<REFRESH_TOKEN>"}'
+    headers:
+      User-Agent:
+      - Faraday v1.3.0
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      date:
+      - Tue, 23 Mar 2021 22:22:02 GMT
+      content-type:
+      - application/json
+      content-length:
+      - '344'
+      connection:
+      - keep-alive
+      server:
+      - nginx/1.18.0
+      access-control-allow-origin:
+      - "*"
+      x-ctxlog-logid:
+      - 1-605a6a0a-6119c9d5540c220e37ad2194
+    body:
+      encoding: UTF-8
+      string: '{"access_token":"<ACCESS_TOKEN>","expires_in":15252,"refresh_token":"<REFRESH_TOKEN>","scope":["bits:read","channel:moderate","channel_commercial","channel_editor","channel_read","channel_stream","chat:edit","chat:read","user:read:email","user_blocks_edit","user_read"],"token_type":"bearer"}
+
+        '
+  recorded_at: Tue, 23 Mar 2021 22:22:03 GMT
+recorded_with: VCR 6.0.0

@@ -57,22 +57,138 @@ describe TwitchOAuth2::Tokens, :vcr do
 		end
 	end
 
-	describe '#authorize_link' do
-		subject(:authorize_link) { tokens.authorize_link }
-
-		let(:initial_access_token) { 'any' }
-		let(:initial_refresh_token) { 'any_too' }
+	describe '#check_tokens!' do
+		subject(:check_tokens) { tokens.check_tokens! }
 
 		context 'when `token_type` is `user`' do
 			let(:token_type) { :user }
+			let(:actual_access_token) { ENV['TWITCH_ACCESS_TOKEN'] }
 
-			it 'contains correct Twitch URI' do
-				expect(authorize_link).to include 'twitch.tv/login'
+			context 'without initial tokens' do
+				let(:initial_access_token) { nil }
+				let(:initial_refresh_token) { nil }
+
+				let(:redirect_params) do
+					URI.encode_www_form_component URI.encode_www_form(
+						client_id: client_id,
+						redirect_uri: redirect_uri,
+						response_type: :code,
+						scope: scope
+					)
+				end
+
+				let(:expected_link) do
+					"https://www.twitch.tv/login?client_id=#{client_id}&redirect_params=#{redirect_params}"
+				end
+
+				it 'raises an error with link' do
+					expect { check_tokens }.to raise_error an_instance_of(TwitchOAuth2::AuthorizeError)
+						.and having_attributes(
+							message: 'Direct user to `error.link` and assign `code`',
+							link: expected_link
+						)
+				end
+
+				include_examples '`on_update` hook', received_times: 0
 			end
 
-			it 'contains correct client_id' do
-				expect(authorize_link).to include "client_id=#{client_id}"
+			context 'with actual initial access token' do
+				let(:initial_access_token) { actual_access_token }
+				let(:initial_refresh_token) { 42 }
+
+				it 'does not raise any error' do
+					expect { check_tokens }.not_to raise_error
+				end
+
+				include_examples '`on_update` hook', received_times: 0
 			end
+
+			context 'with outdated initial access token' do
+				let(:initial_access_token) { outdated_access_token }
+
+				context 'with refresh token' do
+					let(:initial_refresh_token) { ENV['TWITCH_REFRESH_TOKEN'] }
+
+					it 'does not raise any error' do
+						expect { check_tokens }.not_to raise_error
+					end
+
+					include_examples '`on_update` hook', received_times: 1
+				end
+
+				context 'without refresh token' do
+					let(:initial_refresh_token) { nil }
+
+					it 'raises error' do
+						expect { check_tokens }.to raise_error TwitchOAuth2::Error, 'missing refresh token'
+					end
+
+					include_examples '`on_update` hook', received_times: 0
+				end
+			end
+		end
+
+		context 'when `token_type` is `application`' do
+			let(:token_type) { :application }
+			let(:initial_refresh_token) { nil }
+			let(:actual_access_token) { ENV['TWITCH_APPLICATION_ACCESS_TOKEN'] }
+
+			context 'without initial access token' do
+				let(:initial_access_token) { nil }
+
+				context 'with correct client credentials' do
+					it 'does not raise any error' do
+						expect { check_tokens }.not_to raise_error
+					end
+
+					include_examples '`on_update` hook', received_times: 1
+				end
+
+				context 'with incorrect client credentials' do
+					let(:client_id) { nil }
+					let(:client_secret) { nil }
+
+					it 'raises error' do
+						expect { check_tokens }.to raise_error TwitchOAuth2::Error, 'missing client id'
+					end
+
+					include_examples '`on_update` hook', received_times: 0
+				end
+			end
+
+			context 'with actual initial access token' do
+				let(:initial_access_token) { actual_access_token }
+
+				it 'does not raise any error' do
+					expect { check_tokens }.not_to raise_error
+				end
+
+				include_examples '`on_update` hook', received_times: 0
+			end
+
+			context 'with outdated initial access token' do
+				let(:initial_access_token) { outdated_access_token }
+
+				it 'does not raise any error' do
+					expect { check_tokens }.not_to raise_error
+				end
+
+				include_examples '`on_update` hook', received_times: 1
+			end
+		end
+
+		context 'when `token_type` is unsupported' do
+			let(:token_type) { :foobar }
+			let(:initial_access_token) { 'foo' }
+			let(:initial_refresh_token) { 'bar' }
+
+			it 'raises error' do
+				expect { check_tokens }.to raise_error(
+					TwitchOAuth2::UnsupportedTokenTypeError, 'Unsupported token type: `foobar`'
+				)
+			end
+
+			include_examples '`on_update` hook', received_times: 0
 		end
 	end
 
@@ -101,10 +217,10 @@ describe TwitchOAuth2::Tokens, :vcr do
 				end
 
 				it 'raises an error with link' do
-					expect { access_token }.to raise_error an_instance_of(TwitchOAuth2::Error)
+					expect { access_token }.to raise_error an_instance_of(TwitchOAuth2::AuthorizeError)
 						.and having_attributes(
-							message: 'Use `error.metadata[:link]` for getting new tokens',
-							metadata: { link: expected_link }
+							message: 'Direct user to `error.link` and assign `code`',
+							link: expected_link
 						)
 				end
 

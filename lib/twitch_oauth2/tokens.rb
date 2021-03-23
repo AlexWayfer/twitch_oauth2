@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_relative 'authorize_error'
+
 module TwitchOAuth2
 	## Class for tokens and their refreshing, using provided client
 	class Tokens
@@ -27,18 +29,16 @@ module TwitchOAuth2
 			@expires_at = nil
 		end
 
-		def authorize_link
-			return if @token_type != :user
-
-			@client.authorize scopes: @scopes
-		end
-
-		def access_token
+		def check_tokens!
 			if @access_token
 				validate_access_token if @expires_at.nil? || Time.now >= @expires_at
 			else
 				request_new_tokens
 			end
+		end
+
+		def access_token
+			check_tokens!
 
 			@access_token
 		end
@@ -74,9 +74,7 @@ module TwitchOAuth2
 		end
 
 		def request_new_tokens
-			if @token_type == :user
-				raise Error.new 'Use `error.metadata[:link]` for getting new tokens', link: authorize_link
-			end
+			raise AuthorizeError, @client.authorize(scopes: @scopes) if @token_type == :user
 
 			assign_tokens @client.token(token_type: @token_type)
 

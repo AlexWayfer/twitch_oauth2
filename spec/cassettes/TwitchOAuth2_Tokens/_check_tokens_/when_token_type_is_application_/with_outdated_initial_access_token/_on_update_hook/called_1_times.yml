@@ -1,0 +1,75 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://id.twitch.tv/oauth2/validate
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.3.0
+      Authorization:
+      - OAuth 9y7bf00r4fof71czggal1e2wlo50q3
+  response:
+    status:
+      code: 401
+      message: Unauthorized
+    headers:
+      date:
+      - Tue, 23 Mar 2021 22:22:15 GMT
+      content-type:
+      - application/json
+      content-length:
+      - '48'
+      connection:
+      - keep-alive
+      server:
+      - nginx/1.18.0
+      access-control-allow-origin:
+      - "*"
+      x-ctxlog-logid:
+      - 1-605a6a17-316bd3ac2f182dc8481ce59f
+    body:
+      encoding: UTF-8
+      string: '{"status":401,"message":"invalid access token"}
+
+        '
+  recorded_at: Tue, 23 Mar 2021 22:22:16 GMT
+- request:
+    method: post
+    uri: https://id.twitch.tv/oauth2/token
+    body:
+      encoding: UTF-8
+      string: '{"client_id":"<CLIENT_ID>","client_secret":"<CLIENT_SECRET>","code":null,"grant_type":"client_credentials","redirect_uri":"http://localhost"}'
+    headers:
+      User-Agent:
+      - Faraday v1.3.0
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      date:
+      - Tue, 23 Mar 2021 22:22:17 GMT
+      content-type:
+      - application/json
+      content-length:
+      - '93'
+      connection:
+      - keep-alive
+      server:
+      - nginx/1.18.0
+      access-control-allow-origin:
+      - "*"
+      x-ctxlog-logid:
+      - 1-605a6a18-33a7d39917b3e76e7cfbbfb4
+    body:
+      encoding: UTF-8
+      string: '{"access_token":"<ACCESS_TOKEN>","expires_in":5463910,"token_type":"bearer"}
+
+        '
+  recorded_at: Tue, 23 Mar 2021 22:22:17 GMT
+recorded_with: VCR 6.0.0
