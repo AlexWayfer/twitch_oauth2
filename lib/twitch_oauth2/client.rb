@@ -27,13 +27,19 @@ module TwitchOAuth2
 			@redirect_uri = redirect_uri
 		end
 
-		def flow(token_type:, scopes:)
-			if token_type == :user
-				link = authorize scopes: scopes
-				raise Error.new 'Use `error.metadata[:link]` for getting new tokens', link: link
-			end
+		def authorize(scopes:)
+			response = CONNECTION.get(
+				'authorize',
+				client_id: @client_id,
+				redirect_uri: @redirect_uri,
+				scope: Array(scopes).join(' '),
+				response_type: :code
+			)
 
-			token(token_type: token_type)
+			location = response.headers[:location]
+			return location if location
+
+			raise Error, response.body[:message]
 		end
 
 		def token(token_type:, code: nil)
@@ -74,21 +80,6 @@ module TwitchOAuth2
 		end
 
 		private
-
-		def authorize(scopes:)
-			response = CONNECTION.get(
-				'authorize',
-				client_id: @client_id,
-				redirect_uri: @redirect_uri,
-				scope: Array(scopes).join(' '),
-				response_type: :code
-			)
-
-			location = response.headers[:location]
-			return location if location
-
-			raise Error, response.body[:message]
-		end
 
 		def grant_type_by_token_type(token_type)
 			case token_type

@@ -27,71 +27,6 @@ describe TwitchOAuth2::Client, :vcr do
 		vcr_recording? ? a_string_matching(/[a-z0-9]{30,}/) : '<REFRESH_TOKEN>'
 	end
 
-	describe '#flow' do
-		subject(:result) do
-			client.flow(token_type: token_type, scopes: scopes)
-		end
-
-		context 'when `token_type` is `user`' do
-			let(:token_type) { :user }
-
-			let(:redirect_params) do
-				URI.encode_www_form_component URI.encode_www_form(
-					client_id: client_id,
-					redirect_uri: redirect_uri,
-					response_type: :code,
-					scope: scope
-				)
-			end
-
-			let(:expected_link) do
-				"https://www.twitch.tv/login?client_id=#{client_id}&redirect_params=#{redirect_params}"
-			end
-
-			it 'raises an error with link' do
-				expect { result }.to raise_error an_instance_of(TwitchOAuth2::Error)
-					.and having_attributes(
-						message: 'Use `error.metadata[:link]` for getting new tokens',
-						metadata: { link: expected_link }
-					)
-			end
-		end
-
-		context 'when `token_type` is `application`' do
-			let(:token_type) { :application }
-			let(:expected_tokens) do
-				{
-					access_token: expected_access_token
-				}
-			end
-
-			context 'with correct client credentials' do
-				it 'returns new tokens' do
-					expect(result).to include expected_tokens
-				end
-			end
-
-			context 'with incorrect client credentials' do
-				let(:client_id) { nil }
-				let(:client_secret) { nil }
-
-				it 'raises error' do
-					expect { result }.to raise_error TwitchOAuth2::Error, 'missing client id'
-				end
-			end
-		end
-
-		context 'when `token_type` is unsupported' do
-			let(:token_type) { :foobar }
-
-			it 'raises error' do
-				expect { result }.to raise_error(
-					TwitchOAuth2::UnsupportedTokenTypeError, 'Unsupported token type: `foobar`'
-				)
-			end
-		end
-	end
-
 	describe '#token' do
 		subject(:result) { client.token(token_type: token_type, code: code) }
 
@@ -115,9 +50,7 @@ describe TwitchOAuth2::Client, :vcr do
 
 			context 'with code' do
 				let(:code) do
-					client.flow(token_type: token_type, scopes: scopes)
-				rescue TwitchOAuth2::Error => e
-					raise e unless (link = e.metadata[:link])
+					link = client.authorize(scopes: scopes)
 
 					return 'any_code' unless vcr_recording?
 

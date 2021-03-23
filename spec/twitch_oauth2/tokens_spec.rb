@@ -57,6 +57,25 @@ describe TwitchOAuth2::Tokens, :vcr do
 		end
 	end
 
+	describe '#authorize_link' do
+		subject(:authorize_link) { tokens.authorize_link }
+
+		let(:initial_access_token) { 'any' }
+		let(:initial_refresh_token) { 'any_too' }
+
+		context 'when `token_type` is `user`' do
+			let(:token_type) { :user }
+
+			it 'contains correct Twitch URI' do
+				expect(authorize_link).to include 'twitch.tv/login'
+			end
+
+			it 'contains correct client_id' do
+				expect(authorize_link).to include "client_id=#{client_id}"
+			end
+		end
+	end
+
 	describe '#access_token' do
 		subject(:access_token) { tokens.access_token }
 
@@ -215,9 +234,7 @@ describe TwitchOAuth2::Tokens, :vcr do
 
 			context 'with code' do
 				let(:code) do
-					client.flow(token_type: token_type, scopes: scopes)
-				rescue TwitchOAuth2::Error => e
-					raise e unless (link = e.metadata[:link])
+					link = client.authorize(scopes: scopes)
 
 					return 'any_code' unless vcr_recording?
 

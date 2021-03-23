@@ -27,6 +27,12 @@ module TwitchOAuth2
 			@expires_at = nil
 		end
 
+		def authorize_link
+			return if @token_type != :user
+
+			@client.authorize scopes: @scopes
+		end
+
 		def access_token
 			if @access_token
 				validate_access_token if @expires_at.nil? || Time.now >= @expires_at
@@ -68,7 +74,12 @@ module TwitchOAuth2
 		end
 
 		def request_new_tokens
-			assign_tokens @client.flow token_type: @token_type, scopes: @scopes
+			if @token_type == :user
+				raise Error.new 'Use `error.metadata[:link]` for getting new tokens', link: authorize_link
+			end
+
+			assign_tokens @client.token(token_type: @token_type)
+
 			@on_update&.call(self)
 		end
 
