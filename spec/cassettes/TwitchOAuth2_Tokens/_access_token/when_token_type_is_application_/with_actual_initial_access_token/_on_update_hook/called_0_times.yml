@@ -17,7 +17,7 @@ http_interactions:
       message: OK
     headers:
       date:
-      - Sun, 21 Mar 2021 15:28:16 GMT
+      - Tue, 23 Mar 2021 22:51:12 GMT
       content-type:
       - application/json
       content-length:
@@ -29,11 +29,11 @@ http_interactions:
       access-control-allow-origin:
       - "*"
       x-ctxlog-logid:
-      - 1-60576610-6884bb0801e6c9545f952aa3
+      - 1-605a70e0-1b11758e74cef4fb43329d74
     body:
       encoding: UTF-8
-      string: '{"client_id":"<CLIENT_ID>","scopes":[],"expires_in":5458372}
+      string: '{"client_id":"<CLIENT_ID>","scopes":[],"expires_in":5258996}
 
         '
-  recorded_at: Sun, 21 Mar 2021 15:28:16 GMT
+  recorded_at: Tue, 23 Mar 2021 22:51:12 GMT
 recorded_with: VCR 6.0.0

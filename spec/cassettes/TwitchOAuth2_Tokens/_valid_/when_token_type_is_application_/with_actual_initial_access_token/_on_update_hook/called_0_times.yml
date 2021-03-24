@@ -10,18 +10,18 @@ http_interactions:
       User-Agent:
       - Faraday v1.3.0
       Authorization:
-      - OAuth <ACTUAL_ACCESS_TOKEN>
+      - OAuth <ACTUAL_APPLICATION_ACCESS_TOKEN>
   response:
     status:
       code: 200
       message: OK
     headers:
       date:
-      - Tue, 23 Mar 2021 22:49:04 GMT
+      - Tue, 23 Mar 2021 22:48:18 GMT
       content-type:
       - application/json
       content-length:
-      - '302'
+      - '80'
       connection:
       - keep-alive
       server:
@@ -29,11 +29,11 @@ http_interactions:
       access-control-allow-origin:
       - "*"
       x-ctxlog-logid:
-      - 1-605a7060-5eb336bd2f78e6295dca508a
+      - 1-605a7032-349b3a5537c5652b7f744b5e
     body:
       encoding: UTF-8
-      string: '{"client_id":"<CLIENT_ID>","login":"streamassistantbot","scopes":["bits:read","channel:moderate","channel_commercial","channel_editor","channel_read","channel_stream","chat:edit","chat:read","user:read:email","user_blocks_edit","user_read"],"user_id":"277558749","expires_in":11381}
+      string: '{"client_id":"<CLIENT_ID>","scopes":[],"expires_in":5259170}
 
         '
-  recorded_at: Tue, 23 Mar 2021 22:49:04 GMT
+  recorded_at: Tue, 23 Mar 2021 22:48:18 GMT
 recorded_with: VCR 6.0.0

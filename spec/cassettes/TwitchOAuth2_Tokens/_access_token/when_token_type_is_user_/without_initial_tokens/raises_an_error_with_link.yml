@@ -15,7 +15,7 @@ http_interactions:
       message: Found
     headers:
       date:
-      - Sun, 21 Mar 2021 08:38:35 GMT
+      - Tue, 23 Mar 2021 22:49:02 GMT
       content-type:
       - text/html; charset=utf-8
       content-length:
@@ -47,11 +47,11 @@ http_interactions:
         _twitch_session_id=; Path=/; Domain=twitch.tv; Expires=Thu, 01 Jan 1970 00:00:00
         GMT; Max-Age=0; Secure
       x-ctxlog-logid:
-      - 1-6057060b-4cd18cb45b81266d30053012
+      - 1-605a705e-39f48ad90c497e774f14f310
       x-frame-options:
       - DENY
     body:
       encoding: UTF-8
       string: "<a href=\"https://www.twitch.tv/login?client_id=<CLIENT_ID>&amp;redirect_params=client_id%3D<CLIENT_ID>%26redirect_uri%3Dhttp%253A%252F%252Flocalhost%26response_type%3Dcode%26scope%3Duser%253Aread%253Aemail%2Bbits%253Aread\">Found</a>.\n\n"
-  recorded_at: Sun, 21 Mar 2021 08:38:35 GMT
+  recorded_at: Tue, 23 Mar 2021 22:49:02 GMT
 recorded_with: VCR 6.0.0

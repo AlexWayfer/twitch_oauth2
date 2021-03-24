@@ -17,7 +17,7 @@ http_interactions:
       message: OK
     headers:
       date:
-      - Tue, 23 Mar 2021 22:49:04 GMT
+      - Tue, 23 Mar 2021 22:48:03 GMT
       content-type:
       - application/json
       content-length:
@@ -29,11 +29,11 @@ http_interactions:
       access-control-allow-origin:
       - "*"
       x-ctxlog-logid:
-      - 1-605a7060-5eb336bd2f78e6295dca508a
+      - 1-605a7023-5a7195d347bfcfc54006faca
     body:
       encoding: UTF-8
-      string: '{"client_id":"<CLIENT_ID>","login":"streamassistantbot","scopes":["bits:read","channel:moderate","channel_commercial","channel_editor","channel_read","channel_stream","chat:edit","chat:read","user:read:email","user_blocks_edit","user_read"],"user_id":"277558749","expires_in":11381}
+      string: '{"client_id":"<CLIENT_ID>","login":"streamassistantbot","scopes":["bits:read","channel:moderate","channel_commercial","channel_editor","channel_read","channel_stream","chat:edit","chat:read","user:read:email","user_blocks_edit","user_read"],"user_id":"277558749","expires_in":11442}
 
         '
-  recorded_at: Tue, 23 Mar 2021 22:49:04 GMT
+  recorded_at: Tue, 23 Mar 2021 22:48:03 GMT
 recorded_with: VCR 6.0.0

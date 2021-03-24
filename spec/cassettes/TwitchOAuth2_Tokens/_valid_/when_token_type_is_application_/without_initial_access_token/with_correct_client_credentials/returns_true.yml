@@ -17,7 +17,7 @@ http_interactions:
       message: OK
     headers:
       date:
-      - Tue, 23 Mar 2021 22:51:07 GMT
+      - Tue, 23 Mar 2021 22:48:13 GMT
       content-type:
       - application/json
       content-length:
@@ -29,11 +29,11 @@ http_interactions:
       access-control-allow-origin:
       - "*"
       x-ctxlog-logid:
-      - 1-605a70db-766f0a9e6032a5f836d45b59
+      - 1-605a702d-565a4f924ba6805b43a65b99
     body:
       encoding: UTF-8
-      string: '{"access_token":"<ACCESS_TOKEN>","expires_in":5615903,"token_type":"bearer"}
+      string: '{"access_token":"<ACCESS_TOKEN>","expires_in":4853777,"token_type":"bearer"}
 
         '
-  recorded_at: Tue, 23 Mar 2021 22:51:07 GMT
+  recorded_at: Tue, 23 Mar 2021 22:48:13 GMT
 recorded_with: VCR 6.0.0

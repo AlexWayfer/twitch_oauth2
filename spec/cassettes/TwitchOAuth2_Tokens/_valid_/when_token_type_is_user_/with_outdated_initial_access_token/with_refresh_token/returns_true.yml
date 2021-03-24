@@ -17,7 +17,7 @@ http_interactions:
       message: Unauthorized
     headers:
       date:
-      - Tue, 23 Mar 2021 22:49:08 GMT
+      - Tue, 23 Mar 2021 22:48:04 GMT
       content-type:
       - application/json
       content-length:
@@ -29,13 +29,13 @@ http_interactions:
       access-control-allow-origin:
       - "*"
       x-ctxlog-logid:
-      - 1-605a7064-1dcf2d4d062319603741a756
+      - 1-605a7024-612304a9671effa55f596b1f
     body:
       encoding: UTF-8
       string: '{"status":401,"message":"invalid access token"}
 
         '
-  recorded_at: Tue, 23 Mar 2021 22:49:08 GMT
+  recorded_at: Tue, 23 Mar 2021 22:48:05 GMT
 - request:
     method: post
     uri: https://id.twitch.tv/oauth2/token
@@ -53,7 +53,7 @@ http_interactions:
       message: OK
     headers:
       date:
-      - Tue, 23 Mar 2021 22:49:09 GMT
+      - Tue, 23 Mar 2021 22:48:06 GMT
       content-type:
       - application/json
       content-length:
@@ -65,11 +65,11 @@ http_interactions:
       access-control-allow-origin:
       - "*"
       x-ctxlog-logid:
-      - 1-605a7065-63c1c21c695e666444287ad7
+      - 1-605a7025-35d464e574b82d8c39461515
     body:
       encoding: UTF-8
-      string: '{"access_token":"<ACCESS_TOKEN>","expires_in":14499,"refresh_token":"<REFRESH_TOKEN>","scope":["bits:read","channel:moderate","channel_commercial","channel_editor","channel_read","channel_stream","chat:edit","chat:read","user:read:email","user_blocks_edit","user_read"],"token_type":"bearer"}
+      string: '{"access_token":"<ACCESS_TOKEN>","expires_in":15182,"refresh_token":"<REFRESH_TOKEN>","scope":["bits:read","channel:moderate","channel_commercial","channel_editor","channel_read","channel_stream","chat:edit","chat:read","user:read:email","user_blocks_edit","user_read"],"token_type":"bearer"}
 
         '
-  recorded_at: Tue, 23 Mar 2021 22:49:09 GMT
+  recorded_at: Tue, 23 Mar 2021 22:48:06 GMT
 recorded_with: VCR 6.0.0

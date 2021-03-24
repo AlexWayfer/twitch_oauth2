@@ -17,7 +17,7 @@ http_interactions:
       message: Bad Request
     headers:
       date:
-      - Sun, 21 Mar 2021 15:28:15 GMT
+      - Tue, 23 Mar 2021 22:51:10 GMT
       content-type:
       - application/json
       content-length:
@@ -29,11 +29,11 @@ http_interactions:
       access-control-allow-origin:
       - "*"
       x-ctxlog-logid:
-      - 1-6057660f-489ad5dc1c4aef04712e4afc
+      - 1-605a70de-2ca29b8d60c0bb546704d38f
     body:
       encoding: UTF-8
       string: '{"status":400,"message":"missing client id"}
 
         '
-  recorded_at: Sun, 21 Mar 2021 15:28:15 GMT
+  recorded_at: Tue, 23 Mar 2021 22:51:10 GMT
 recorded_with: VCR 6.0.0

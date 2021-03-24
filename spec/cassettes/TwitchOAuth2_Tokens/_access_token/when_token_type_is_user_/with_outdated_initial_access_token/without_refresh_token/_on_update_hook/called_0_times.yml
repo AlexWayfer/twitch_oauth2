@@ -17,7 +17,7 @@ http_interactions:
       message: Unauthorized
     headers:
       date:
-      - Sun, 21 Mar 2021 15:28:11 GMT
+      - Tue, 23 Mar 2021 22:49:12 GMT
       content-type:
       - application/json
       content-length:
@@ -29,13 +29,13 @@ http_interactions:
       access-control-allow-origin:
       - "*"
       x-ctxlog-logid:
-      - 1-6057660b-205de89d2fd85abe31c8eb39
+      - 1-605a7068-21a8af717e4b24c9563dffd0
     body:
       encoding: UTF-8
       string: '{"status":401,"message":"invalid access token"}
 
         '
-  recorded_at: Sun, 21 Mar 2021 15:28:11 GMT
+  recorded_at: Tue, 23 Mar 2021 22:49:12 GMT
 - request:
     method: post
     uri: https://id.twitch.tv/oauth2/token
@@ -53,7 +53,7 @@ http_interactions:
       message: Bad Request
     headers:
       date:
-      - Sun, 21 Mar 2021 15:28:12 GMT
+      - Tue, 23 Mar 2021 22:49:13 GMT
       content-type:
       - application/json
       content-length:
@@ -65,11 +65,11 @@ http_interactions:
       access-control-allow-origin:
       - "*"
       x-ctxlog-logid:
-      - 1-6057660c-6866098c71426a8a71ffd8cc
+      - 1-605a7069-385afe134fc8bbc56153e87c
     body:
       encoding: UTF-8
       string: '{"status":400,"message":"missing refresh token"}
 
         '
-  recorded_at: Sun, 21 Mar 2021 15:28:12 GMT
+  recorded_at: Tue, 23 Mar 2021 22:49:13 GMT
 recorded_with: VCR 6.0.0

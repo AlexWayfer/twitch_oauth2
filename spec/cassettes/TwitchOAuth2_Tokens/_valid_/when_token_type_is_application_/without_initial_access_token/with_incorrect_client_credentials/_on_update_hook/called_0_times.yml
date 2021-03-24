@@ -5,7 +5,7 @@ http_interactions:
     uri: https://id.twitch.tv/oauth2/token
     body:
       encoding: UTF-8
-      string: '{"client_id":"<CLIENT_ID>","client_secret":"<CLIENT_SECRET>","code":null,"grant_type":"client_credentials","redirect_uri":"http://localhost"}'
+      string: '{"client_id":null,"client_secret":null,"code":null,"grant_type":"client_credentials","redirect_uri":"http://localhost"}'
     headers:
       User-Agent:
       - Faraday v1.3.0
@@ -13,15 +13,15 @@ http_interactions:
       - application/json
   response:
     status:
-      code: 200
-      message: OK
+      code: 400
+      message: Bad Request
     headers:
       date:
-      - Tue, 23 Mar 2021 22:51:07 GMT
+      - Tue, 23 Mar 2021 22:48:16 GMT
       content-type:
       - application/json
       content-length:
-      - '93'
+      - '45'
       connection:
       - keep-alive
       server:
@@ -29,11 +29,11 @@ http_interactions:
       access-control-allow-origin:
       - "*"
       x-ctxlog-logid:
-      - 1-605a70db-766f0a9e6032a5f836d45b59
+      - 1-605a7030-4bc7d5af2185fd5d78d2824e
     body:
       encoding: UTF-8
-      string: '{"access_token":"<ACCESS_TOKEN>","expires_in":5615903,"token_type":"bearer"}
+      string: '{"status":400,"message":"missing client id"}
 
         '
-  recorded_at: Tue, 23 Mar 2021 22:51:07 GMT
+  recorded_at: Tue, 23 Mar 2021 22:48:16 GMT
 recorded_with: VCR 6.0.0

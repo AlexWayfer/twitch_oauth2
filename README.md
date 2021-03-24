@@ -71,10 +71,15 @@ tokens = TwitchOAuth2::Tokens.new(
 
 ### Check tokens
 
-Please, use `Tokens#check_tokens!` method after initialization, especially for empty initial tokens,
+Please, use `Tokens#valid?` method after initialization, especially for empty initial tokens,
 especially for User Access Token.
 
-This method will raise an error on any non-valid event.
+If method returned `false` — direct user to `tokens#authorize_link`.
+
+For a web-application with N users, you can use `:redirect_uri` argument for `Client`
+initialization as your application callback and redirect them to `#authorize_link`.
+
+For something like a CLI tool you can print instructions for user with received link.
 
 #### Application Access Token
 
@@ -86,30 +91,21 @@ new `access_token`, and regenerate when it's will be outdated.
 
 #### User Access Token
 
-If you need for `:user` token and you have no actual `access_token` or `refresh_token`,
-**you have to call** `Tokens#check_tokens!`, rescue `TwitchOAuth2::AuthorizeError`
-and ask user to open `error.link` in a browser.
+If you need for `:user` token and you have no actual `access_token` or `refresh_token`
+(checkable by `Tokens#valid?`), **you have to direct user** to `tokens#authorize_link`.
 
 After successful user login there will be redirect from Twitch to the `:redirect_uri`
 (by default is `localhost`) with the `code` query argument.
-You have to pass it to the `Tokens#code=` for `access_token` and `refresh_token` generation,
+**You have to pass it** to the `Tokens#code=` for `access_token` and `refresh_token` generation,
 they will be available right after it.
 
 It's one-time manual operation for User Access Token, further the gem will give you actual tokens
 and refresh them as necessary (right now `refresh_token`, getting after `code`, has no life time).
 
-If you have a web-application with N users, you can use `:redirect_uri` argument
-for `Client` initialization as your application callback and redirect them to `#authorize_link`.
-
-If you have something like CLI tool, you can print instructions for user
-inside rescuing `TwitchOAuth2::AuthorizeError`.
-
-Without checking tokens the same error will be raised on try to access `#access_token`,
+Without checking tokens the `TwitchOAuth2::AuthorizeError` will be raised on `#access_token` call,
 and it can interrupt some operations, like API library initialization.
 
-The reference for such behavior is [the official Google API gem](https://github.com/googleapis/google-api-ruby-client/blob/39ae3527722a003b389a2f7f5275ab9c6e93bb5e/samples/cli/lib/base_cli.rb`),
-but more exception-oriented, because there are too much possible reasons for unexpected behavior,
-like wrong client ID, wrong refresh token, something else.
+The reference for such behavior is [the official Google API gem](https://github.com/googleapis/google-api-ruby-client/blob/39ae3527722a003b389a2f7f5275ab9c6e93bb5e/samples/cli/lib/base_cli.rb`).
 
 Another reference, [`twitch` package for JavaScript](https://d-fischer.github.io/twitch/),
 has refreshing logic, but [requires initial correct tokens from you](https://d-fischer.github.io/twitch-chat-client/docs/examples/basic-bot.html),

@@ -13,15 +13,15 @@ http_interactions:
       - OAuth <ACTUAL_ACCESS_TOKEN>
   response:
     status:
-      code: 401
-      message: Unauthorized
+      code: 200
+      message: OK
     headers:
       date:
-      - Sun, 21 Mar 2021 15:28:07 GMT
+      - Tue, 23 Mar 2021 22:49:05 GMT
       content-type:
       - application/json
       content-length:
-      - '48'
+      - '302'
       connection:
       - keep-alive
       server:
@@ -29,47 +29,11 @@ http_interactions:
       access-control-allow-origin:
       - "*"
       x-ctxlog-logid:
-      - 1-60576607-214605605902e23627bb4a42
+      - 1-605a7061-06dfacf3132ea68e3dcc4ba3
     body:
       encoding: UTF-8
-      string: '{"status":401,"message":"invalid access token"}
+      string: '{"client_id":"<CLIENT_ID>","login":"streamassistantbot","scopes":["bits:read","channel:moderate","channel_commercial","channel_editor","channel_read","channel_stream","chat:edit","chat:read","user:read:email","user_blocks_edit","user_read"],"user_id":"277558749","expires_in":11380}
 
         '
-  recorded_at: Sun, 21 Mar 2021 15:28:07 GMT
-- request:
-    method: post
-    uri: https://id.twitch.tv/oauth2/token
-    body:
-      encoding: UTF-8
-      string: '{"client_id":"<CLIENT_ID>","client_secret":"<CLIENT_SECRET>","grant_type":"refresh_token","refresh_token":42}'
-    headers:
-      User-Agent:
-      - Faraday v1.3.0
-      Content-Type:
-      - application/json
-  response:
-    status:
-      code: 400
-      message: Bad Request
-    headers:
-      date:
-      - Sun, 21 Mar 2021 15:28:08 GMT
-      content-type:
-      - application/json
-      content-length:
-      - '45'
-      connection:
-      - keep-alive
-      server:
-      - nginx/1.18.0
-      access-control-allow-origin:
-      - "*"
-      x-ctxlog-logid:
-      - 1-60576608-461ee0dc69d44cbc59a64a80
-    body:
-      encoding: UTF-8
-      string: '{"status":400,"message":"missing client id"}
-
-        '
-  recorded_at: Sun, 21 Mar 2021 15:28:08 GMT
+  recorded_at: Tue, 23 Mar 2021 22:49:05 GMT
 recorded_with: VCR 6.0.0

@@ -57,8 +57,8 @@ describe TwitchOAuth2::Tokens, :vcr do
 		end
 	end
 
-	describe '#check_tokens!' do
-		subject(:check_tokens) { tokens.check_tokens! }
+	describe '#valid?' do
+		subject(:valid) { tokens.valid? }
 
 		context 'when `token_type` is `user`' do
 			let(:token_type) { :user }
@@ -81,12 +81,8 @@ describe TwitchOAuth2::Tokens, :vcr do
 					"https://www.twitch.tv/login?client_id=#{client_id}&redirect_params=#{redirect_params}"
 				end
 
-				it 'raises an error with link' do
-					expect { check_tokens }.to raise_error an_instance_of(TwitchOAuth2::AuthorizeError)
-						.and having_attributes(
-							message: 'Direct user to `error.link` and assign `code`',
-							link: expected_link
-						)
+				it 'returns false' do
+					expect(valid).to be false
 				end
 
 				include_examples '`on_update` hook', received_times: 0
@@ -96,8 +92,8 @@ describe TwitchOAuth2::Tokens, :vcr do
 				let(:initial_access_token) { actual_access_token }
 				let(:initial_refresh_token) { 42 }
 
-				it 'does not raise any error' do
-					expect { check_tokens }.not_to raise_error
+				it 'returns true' do
+					expect(valid).to be true
 				end
 
 				include_examples '`on_update` hook', received_times: 0
@@ -109,8 +105,8 @@ describe TwitchOAuth2::Tokens, :vcr do
 				context 'with refresh token' do
 					let(:initial_refresh_token) { ENV['TWITCH_REFRESH_TOKEN'] }
 
-					it 'does not raise any error' do
-						expect { check_tokens }.not_to raise_error
+					it 'returns true' do
+						expect(valid).to be true
 					end
 
 					include_examples '`on_update` hook', received_times: 1
@@ -120,7 +116,7 @@ describe TwitchOAuth2::Tokens, :vcr do
 					let(:initial_refresh_token) { nil }
 
 					it 'raises error' do
-						expect { check_tokens }.to raise_error TwitchOAuth2::Error, 'missing refresh token'
+						expect { valid }.to raise_error TwitchOAuth2::Error, 'missing refresh token'
 					end
 
 					include_examples '`on_update` hook', received_times: 0
@@ -137,8 +133,8 @@ describe TwitchOAuth2::Tokens, :vcr do
 				let(:initial_access_token) { nil }
 
 				context 'with correct client credentials' do
-					it 'does not raise any error' do
-						expect { check_tokens }.not_to raise_error
+					it 'returns true' do
+						expect(valid).to be true
 					end
 
 					include_examples '`on_update` hook', received_times: 1
@@ -149,7 +145,7 @@ describe TwitchOAuth2::Tokens, :vcr do
 					let(:client_secret) { nil }
 
 					it 'raises error' do
-						expect { check_tokens }.to raise_error TwitchOAuth2::Error, 'missing client id'
+						expect { valid }.to raise_error TwitchOAuth2::Error, 'missing client id'
 					end
 
 					include_examples '`on_update` hook', received_times: 0
@@ -159,8 +155,8 @@ describe TwitchOAuth2::Tokens, :vcr do
 			context 'with actual initial access token' do
 				let(:initial_access_token) { actual_access_token }
 
-				it 'does not raise any error' do
-					expect { check_tokens }.not_to raise_error
+				it 'returns true' do
+					expect(valid).to be true
 				end
 
 				include_examples '`on_update` hook', received_times: 0
@@ -169,8 +165,8 @@ describe TwitchOAuth2::Tokens, :vcr do
 			context 'with outdated initial access token' do
 				let(:initial_access_token) { outdated_access_token }
 
-				it 'does not raise any error' do
-					expect { check_tokens }.not_to raise_error
+				it 'returns true' do
+					expect(valid).to be true
 				end
 
 				include_examples '`on_update` hook', received_times: 1
@@ -183,12 +179,31 @@ describe TwitchOAuth2::Tokens, :vcr do
 			let(:initial_refresh_token) { 'bar' }
 
 			it 'raises error' do
-				expect { check_tokens }.to raise_error(
+				expect { valid }.to raise_error(
 					TwitchOAuth2::UnsupportedTokenTypeError, 'Unsupported token type: `foobar`'
 				)
 			end
 
 			include_examples '`on_update` hook', received_times: 0
+		end
+	end
+
+	describe '#authorize_link' do
+		subject(:authorize_link) { tokens.authorize_link }
+
+		let(:initial_access_token) { 'any' }
+		let(:initial_refresh_token) { 'any_too' }
+
+		context 'when `token_type` is `user`' do
+			let(:token_type) { :user }
+
+			it 'contains correct Twitch URI' do
+				expect(authorize_link).to include 'twitch.tv/login'
+			end
+
+			it 'contains correct client_id' do
+				expect(authorize_link).to include "client_id=#{client_id}"
+			end
 		end
 	end
 

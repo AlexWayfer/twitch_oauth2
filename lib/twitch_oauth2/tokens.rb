@@ -29,16 +29,24 @@ module TwitchOAuth2
 			@expires_at = nil
 		end
 
-		def check_tokens!
+		def valid?
 			if @access_token
 				validate_access_token if @expires_at.nil? || Time.now >= @expires_at
 			else
+				return false if @token_type == :user
+
 				request_new_tokens
 			end
+
+			true
+		end
+
+		def authorize_link
+			@client.authorize(scopes: @scopes)
 		end
 
 		def access_token
-			check_tokens!
+			raise AuthorizeError, authorize_link if !valid? && @token_type == :user
 
 			@access_token
 		end
@@ -74,8 +82,6 @@ module TwitchOAuth2
 		end
 
 		def request_new_tokens
-			raise AuthorizeError, @client.authorize(scopes: @scopes) if @token_type == :user
-
 			assign_tokens @client.token(token_type: @token_type)
 
 			@on_update&.call(self)
