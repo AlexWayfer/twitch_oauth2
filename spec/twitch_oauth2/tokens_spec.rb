@@ -387,6 +387,8 @@ describe TwitchOAuth2::Tokens, :vcr do
 					code_assignment
 					expect(access_token).to match expected_access_token
 				end
+
+				include_examples '`on_update` hook', received_times: 1
 			end
 		end
 
@@ -399,6 +401,8 @@ describe TwitchOAuth2::Tokens, :vcr do
 					code_assignment
 					expect(access_token).to match expected_access_token
 				end
+
+				include_examples '`on_update` hook', received_times: 1
 			end
 
 			context 'with incorrect client credentials' do
@@ -408,6 +412,8 @@ describe TwitchOAuth2::Tokens, :vcr do
 				it 'raises error' do
 					expect { code_assignment }.to raise_error TwitchOAuth2::Error, 'missing client id'
 				end
+
+				include_examples '`on_update` hook', received_times: 0
 			end
 		end
 
@@ -420,6 +426,8 @@ describe TwitchOAuth2::Tokens, :vcr do
 					TwitchOAuth2::UnsupportedTokenTypeError, 'Unsupported token type: `foobar`'
 				)
 			end
+
+			include_examples '`on_update` hook', received_times: 0
 		end
 	end
 

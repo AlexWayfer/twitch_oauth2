@@ -73,7 +73,6 @@ module TwitchOAuth2
 			case @token_type
 			when :user
 				assign_tokens @client.refresh(refresh_token: @refresh_token)
-				@on_update&.call(self)
 			when :application
 				request_new_tokens
 			else
@@ -83,14 +82,14 @@ module TwitchOAuth2
 
 		def request_new_tokens
 			assign_tokens @client.token(token_type: @token_type)
-
-			@on_update&.call(self)
 		end
 
 		def assign_tokens(data)
 			@access_token = data[:access_token]
 			@refresh_token = data[:refresh_token]
 			@expires_at = Time.now + data[:expires_in]
+
+			@on_update&.call(self)
 		end
 	end
 end

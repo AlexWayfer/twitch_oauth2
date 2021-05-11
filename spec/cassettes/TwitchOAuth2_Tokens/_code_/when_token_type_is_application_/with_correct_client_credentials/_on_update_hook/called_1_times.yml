@@ -1,0 +1,39 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://id.twitch.tv/oauth2/token
+    body:
+      encoding: UTF-8
+      string: '{"client_id":"<CLIENT_ID>","client_secret":"<CLIENT_SECRET>","code":null,"grant_type":"client_credentials","redirect_uri":"http://localhost"}'
+    headers:
+      User-Agent:
+      - Faraday v1.4.1
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      date:
+      - Tue, 11 May 2021 22:05:18 GMT
+      content-type:
+      - application/json
+      content-length:
+      - '93'
+      connection:
+      - keep-alive
+      server:
+      - nginx/1.18.0
+      access-control-allow-origin:
+      - "*"
+      x-ctxlog-logid:
+      - 1-609aff9e-069cb67140b0cd5e3d6ca814
+    body:
+      encoding: UTF-8
+      string: '{"access_token":"<ACCESS_TOKEN>","expires_in":4900417,"token_type":"bearer"}
+
+        '
+  recorded_at: Tue, 11 May 2021 22:05:18 GMT
+recorded_with: VCR 6.0.0
