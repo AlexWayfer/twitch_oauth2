@@ -1,11 +1,11 @@
 # TwitchOAuth2
 
 [![Cirrus CI - Base Branch Build Status](https://img.shields.io/cirrus/github/AlexWayfer/twitch_oauth2?style=flat-square)](https://cirrus-ci.com/github/AlexWayfer/twitch_oauth2)
-[![Codecov branch](https://img.shields.io/codecov/c/github/AlexWayfer/twitch_oauth2/master.svg?style=flat-square)](https://codecov.io/gh/AlexWayfer/twitch_oauth2)
+[![Codecov branch](https://img.shields.io/codecov/c/github/AlexWayfer/twitch_oauth2/main.svg?style=flat-square)](https://codecov.io/gh/AlexWayfer/twitch_oauth2)
 [![Code Climate](https://img.shields.io/codeclimate/maintainability/AlexWayfer/twitch_oauth2.svg?style=flat-square)](https://codeclimate.com/github/AlexWayfer/twitch_oauth2)
 [![Depfu](https://img.shields.io/depfu/AlexWayfer/twitch_oauth2?style=flat-square)](https://depfu.com/repos/github/AlexWayfer/twitch_oauth2)
-[![Inline docs](https://inch-ci.org/github/AlexWayfer/twitch_oauth2.svg?branch=master)](https://inch-ci.org/github/AlexWayfer/twitch_oauth2)
-[![license](https://img.shields.io/github/license/AlexWayfer/twitch_oauth2.svg?style=flat-square)](https://github.com/AlexWayfer/twitch_oauth2/blob/master/LICENSE.txt)
+[![Inline docs](https://inch-ci.org/github/AlexWayfer/twitch_oauth2.svg?branch=main)](https://inch-ci.org/github/AlexWayfer/twitch_oauth2)
+[![license](https://img.shields.io/github/license/AlexWayfer/twitch_oauth2.svg?style=flat-square)](https://github.com/AlexWayfer/twitch_oauth2/blob/main/LICENSE.txt)
 [![Gem](https://img.shields.io/gem/v/twitch_oauth2.svg?style=flat-square)](https://rubygems.org/gems/twitch_oauth2)
 
 Twitch authentication with OAuth 2.
