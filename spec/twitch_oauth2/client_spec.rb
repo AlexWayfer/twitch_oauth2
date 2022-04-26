@@ -10,8 +10,8 @@ describe TwitchOAuth2::Client, :vcr do
 		)
 	end
 
-	let(:client_id) { ENV['TWITCH_CLIENT_ID'] }
-	let(:client_secret) { ENV['TWITCH_CLIENT_SECRET'] }
+	let(:client_id) { ENV.fetch('TWITCH_CLIENT_ID') }
+	let(:client_secret) { ENV.fetch('TWITCH_CLIENT_SECRET') }
 	let(:redirect_uri) { 'http://localhost' }
 	let(:scopes) { %w[user:read:email bits:read] }
 
@@ -38,7 +38,7 @@ describe TwitchOAuth2::Client, :vcr do
 
 		context 'when `token_type` is `user`' do
 			let(:token_type) { :user }
-			let(:actual_access_token) { ENV['TWITCH_ACCESS_TOKEN'] }
+			let(:actual_access_token) { ENV.fetch('TWITCH_ACCESS_TOKEN') }
 			let(:expected_tokens) do
 				{
 					access_token: expected_access_token,
@@ -87,7 +87,7 @@ describe TwitchOAuth2::Client, :vcr do
 				let(:access_token) { outdated_access_token }
 
 				context 'with refresh token' do
-					let(:refresh_token) { ENV['TWITCH_REFRESH_TOKEN'] }
+					let(:refresh_token) { ENV.fetch('TWITCH_REFRESH_TOKEN') }
 
 					it 'returns JSON with access_token' do
 						expect(result).to match expected_tokens
@@ -108,7 +108,7 @@ describe TwitchOAuth2::Client, :vcr do
 		context 'when `token_type` is `application`' do
 			let(:token_type) { :application }
 			let(:refresh_token) { nil }
-			let(:actual_access_token) { ENV['TWITCH_APPLICATION_ACCESS_TOKEN'] }
+			let(:actual_access_token) { ENV.fetch('TWITCH_APPLICATION_ACCESS_TOKEN') }
 			let(:expected_tokens) do
 				{
 					access_token: expected_access_token
@@ -173,7 +173,7 @@ describe TwitchOAuth2::Client, :vcr do
 		end
 
 		context 'with correct refresh_token' do
-			let(:refresh_token) { ENV['TWITCH_REFRESH_TOKEN'] }
+			let(:refresh_token) { ENV.fetch('TWITCH_REFRESH_TOKEN') }
 
 			it 'returns JSON with access_token' do
 				expect(result).to match expected_tokens
