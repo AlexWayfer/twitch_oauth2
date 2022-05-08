@@ -31,7 +31,7 @@ Gem::Specification.new do |spec|
 
 	spec.files = Dir['lib/**/*.rb', 'README.md', 'LICENSE.txt', 'CHANGELOG.md']
 
-	spec.required_ruby_version = '>= 2.5', '< 4'
+	spec.required_ruby_version = '>= 2.6', '< 4'
 
 	spec.add_dependency 'faraday', '~> 1.0'
 	spec.add_dependency 'faraday_middleware', '~> 1.0'
