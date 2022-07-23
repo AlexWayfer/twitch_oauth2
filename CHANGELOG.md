@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+## 0.4.0 (2022-07-23)
+
+*   Support Ruby 3.
+*   Drop Ruby 2.5 support.
+*   Update Faraday to version 2.
+*   Resolve new RuboCop offenses.
+*   Update development dependencies.
+
 ## 0.3.0 (2020-12-05)
 
 *   Raise an error for `:user` token type with a login link inside
