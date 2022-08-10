@@ -35,7 +35,7 @@ gem install twitch_oauth2
 
 ## Usage
 
-Since version `0.4.0`, the main object here is `TwitchOAuth2::Tokens` which receives
+Since version `0.5.0`, the main object here is `TwitchOAuth2::Tokens` which receives
 and internally uses `client` for necessary requests. This approach allows:
 
 *   get an actual `access_token` with validations, refreshing and other things inside;
