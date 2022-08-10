@@ -9,8 +9,8 @@ describe TwitchOAuth2::Client, :vcr do
 		)
 	end
 
-	let(:client_id) { ENV['TWITCH_CLIENT_ID'] }
-	let(:client_secret) { ENV['TWITCH_CLIENT_SECRET'] }
+	let(:client_id) { ENV.fetch('TWITCH_CLIENT_ID') }
+	let(:client_secret) { ENV.fetch('TWITCH_CLIENT_SECRET') }
 	let(:redirect_uri) { 'http://localhost' }
 	let(:scopes) { %w[user:read:email bits:read] }
 

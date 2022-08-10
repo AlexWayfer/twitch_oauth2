@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'faraday'
-require 'faraday_middleware'
+require 'faraday/parse_dates'
 require 'securerandom'
 
 module TwitchOAuth2
@@ -12,7 +12,7 @@ module TwitchOAuth2
 		) do |connection|
 			connection.request :json
 
-			connection.response :dates
+			connection.response :parse_dates
 
 			connection.response :json,
 				content_type: /\bjson$/,
