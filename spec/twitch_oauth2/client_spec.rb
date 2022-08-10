@@ -117,7 +117,7 @@ describe TwitchOAuth2::Client, :vcr do
 			client.validate(access_token: access_token)
 		end
 
-		let(:actual_access_token) { ENV['TWITCH_ACCESS_TOKEN'] }
+		let(:actual_access_token) { ENV.fetch('TWITCH_ACCESS_TOKEN') }
 		let(:expected_tokens) do
 			{
 				access_token: expected_access_token,
@@ -169,7 +169,7 @@ describe TwitchOAuth2::Client, :vcr do
 		end
 
 		context 'with correct refresh_token' do
-			let(:refresh_token) { ENV['TWITCH_REFRESH_TOKEN'] }
+			let(:refresh_token) { ENV.fetch('TWITCH_REFRESH_TOKEN') }
 
 			it 'returns JSON with access_token' do
 				expect(result).to include expected_tokens

@@ -20,8 +20,8 @@ describe TwitchOAuth2::Tokens, :vcr do
 		)
 	end
 
-	let(:client_id) { ENV['TWITCH_CLIENT_ID'] }
-	let(:client_secret) { ENV['TWITCH_CLIENT_SECRET'] }
+	let(:client_id) { ENV.fetch('TWITCH_CLIENT_ID') }
+	let(:client_secret) { ENV.fetch('TWITCH_CLIENT_SECRET') }
 	let(:redirect_uri) { 'http://localhost' }
 	let(:scopes) { %w[user:read:email bits:read] }
 	let(:on_update) { instance_double(Proc) }
@@ -62,7 +62,7 @@ describe TwitchOAuth2::Tokens, :vcr do
 
 		context 'when `token_type` is `user`' do
 			let(:token_type) { :user }
-			let(:actual_access_token) { ENV['TWITCH_ACCESS_TOKEN'] }
+			let(:actual_access_token) { ENV.fetch('TWITCH_ACCESS_TOKEN') }
 
 			context 'without initial tokens' do
 				let(:initial_access_token) { nil }
@@ -103,7 +103,7 @@ describe TwitchOAuth2::Tokens, :vcr do
 				let(:initial_access_token) { outdated_access_token }
 
 				context 'with refresh token' do
-					let(:initial_refresh_token) { ENV['TWITCH_REFRESH_TOKEN'] }
+					let(:initial_refresh_token) { ENV.fetch('TWITCH_REFRESH_TOKEN') }
 
 					it 'returns true' do
 						expect(valid).to be true
@@ -127,7 +127,7 @@ describe TwitchOAuth2::Tokens, :vcr do
 		context 'when `token_type` is `application`' do
 			let(:token_type) { :application }
 			let(:initial_refresh_token) { nil }
-			let(:actual_access_token) { ENV['TWITCH_APPLICATION_ACCESS_TOKEN'] }
+			let(:actual_access_token) { ENV.fetch('TWITCH_APPLICATION_ACCESS_TOKEN') }
 
 			context 'without initial access token' do
 				let(:initial_access_token) { nil }
@@ -212,7 +212,7 @@ describe TwitchOAuth2::Tokens, :vcr do
 
 		context 'when `token_type` is `user`' do
 			let(:token_type) { :user }
-			let(:actual_access_token) { ENV['TWITCH_ACCESS_TOKEN'] }
+			let(:actual_access_token) { ENV.fetch('TWITCH_ACCESS_TOKEN') }
 
 			context 'without initial tokens' do
 				let(:initial_access_token) { nil }
@@ -257,7 +257,7 @@ describe TwitchOAuth2::Tokens, :vcr do
 				let(:initial_access_token) { outdated_access_token }
 
 				context 'with refresh token' do
-					let(:initial_refresh_token) { ENV['TWITCH_REFRESH_TOKEN'] }
+					let(:initial_refresh_token) { ENV.fetch('TWITCH_REFRESH_TOKEN') }
 
 					it 'returns new access token' do
 						expect(access_token).to match expected_access_token
@@ -281,7 +281,7 @@ describe TwitchOAuth2::Tokens, :vcr do
 		context 'when `token_type` is `application`' do
 			let(:token_type) { :application }
 			let(:initial_refresh_token) { nil }
-			let(:actual_access_token) { ENV['TWITCH_APPLICATION_ACCESS_TOKEN'] }
+			let(:actual_access_token) { ENV.fetch('TWITCH_APPLICATION_ACCESS_TOKEN') }
 
 			context 'without initial access token' do
 				let(:initial_access_token) { nil }
@@ -436,7 +436,7 @@ describe TwitchOAuth2::Tokens, :vcr do
 
 		context 'when `token_type` is `user`' do
 			let(:token_type) { :user }
-			let(:actual_access_token) { ENV['TWITCH_ACCESS_TOKEN'] }
+			let(:actual_access_token) { ENV.fetch('TWITCH_ACCESS_TOKEN') }
 
 			context 'without initial tokens' do
 				let(:initial_access_token) { nil }
