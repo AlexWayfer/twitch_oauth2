@@ -8,14 +8,14 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Faraday v1.3.0
+      - Faraday v1.4.1
   response:
     status:
       code: 302
       message: Found
     headers:
       date:
-      - Sun, 21 Mar 2021 00:10:19 GMT
+      - Tue, 11 May 2021 22:04:39 GMT
       content-type:
       - text/html; charset=utf-8
       content-length:
@@ -47,13 +47,13 @@ http_interactions:
         _twitch_session_id=; Path=/; Domain=twitch.tv; Expires=Thu, 01 Jan 1970 00:00:00
         GMT; Max-Age=0; Secure
       x-ctxlog-logid:
-      - 1-60568eeb-0e463c6212caa613054d7e10
+      - 1-609aff77-28a21a5109d3c63b122f70a7
       x-frame-options:
       - DENY
     body:
       encoding: UTF-8
       string: "<a href=\"https://www.twitch.tv/login?client_id=<CLIENT_ID>&amp;redirect_params=client_id%3D<CLIENT_ID>%26redirect_uri%3Dhttp%253A%252F%252Flocalhost%26response_type%3Dcode%26scope%3Duser%253Aread%253Aemail%2Bbits%253Aread\">Found</a>.\n\n"
-  recorded_at: Sun, 21 Mar 2021 00:10:19 GMT
+  recorded_at: Tue, 11 May 2021 22:04:39 GMT
 - request:
     method: post
     uri: https://id.twitch.tv/oauth2/token
@@ -62,7 +62,7 @@ http_interactions:
       string: '{"client_id":"<CLIENT_ID>","client_secret":"<CLIENT_SECRET>","code":"<CODE>","grant_type":"authorization_code","redirect_uri":"http://localhost"}'
     headers:
       User-Agent:
-      - Faraday v1.3.0
+      - Faraday v1.4.1
       Content-Type:
       - application/json
   response:
@@ -71,7 +71,7 @@ http_interactions:
       message: OK
     headers:
       date:
-      - Sun, 21 Mar 2021 00:10:59 GMT
+      - Tue, 11 May 2021 22:05:17 GMT
       content-type:
       - application/json
       content-length:
@@ -83,11 +83,11 @@ http_interactions:
       access-control-allow-origin:
       - "*"
       x-ctxlog-logid:
-      - 1-60568f13-25ec96877ef1dd096386140a
+      - 1-609aff9d-64fdeba11dd3dbce67cb8c65
     body:
       encoding: UTF-8
-      string: '{"access_token":"<ACCESS_TOKEN>","expires_in":14381,"refresh_token":"<REFRESH_TOKEN>","scope":["bits:read","user:read:email"],"token_type":"bearer"}
+      string: '{"access_token":"<ACCESS_TOKEN>","expires_in":14977,"refresh_token":"<REFRESH_TOKEN>","scope":["bits:read","user:read:email"],"token_type":"bearer"}
 
         '
-  recorded_at: Sun, 21 Mar 2021 00:10:59 GMT
+  recorded_at: Tue, 11 May 2021 22:05:17 GMT
 recorded_with: VCR 6.0.0
