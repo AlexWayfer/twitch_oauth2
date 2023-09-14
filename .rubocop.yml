@@ -39,7 +39,7 @@ AllCops:
   TargetRubyVersion: 2.7
   NewCops: enable
 
-RSpec/FilePath:
+RSpec/SpecFilePathFormat:
   CustomTransform:
     TwitchOAuth2: twitch_oauth2
 RSpec/NestedGroups:
