@@ -23,5 +23,5 @@ end
 group :lint do
 	gem 'rubocop', '~> 1.60.2'
 	gem 'rubocop-performance', '~> 1.0'
-	gem 'rubocop-rspec', '~> 2.24.0'
+	gem 'rubocop-rspec', '~> 2.26.1'
 end
