@@ -42,6 +42,9 @@ AllCops:
 RSpec/SpecFilePathFormat:
   CustomTransform:
     TwitchOAuth2: twitch_oauth2
+RSpec/FilePath:
+  CustomTransform:
+    TwitchOAuth2: twitch_oauth2
 RSpec/NestedGroups:
   Max: 10
 RSpec/MultipleMemoizedHelpers:
