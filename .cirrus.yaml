@@ -22,6 +22,7 @@ env:
 remark_task:
   container:
     image: node
+
   node_modules_cache:
     folder: node_modules
     fingerprint_script:
@@ -40,6 +41,7 @@ remark_task:
 rubocop_task:
   container:
     image: ruby:latest
+
   <<: *bundle_cache
 
   lint_script: bundle exec rubocop --format=json --out=rubocop.json
@@ -63,6 +65,7 @@ rspec_task:
       - image: ruby:3.1
       - image: ruby:3.2
       - image: ruby:3.3
+
   <<: *bundle_cache
 
   test_script: bundle exec rspec
