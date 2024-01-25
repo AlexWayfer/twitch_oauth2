@@ -7,7 +7,7 @@ module TwitchOAuth2
 
 		def initialize(link)
 			@link = link
-			super 'Direct user to `error.link` and assign `code`'
+			super('Direct user to `error.link` and assign `code`')
 		end
 	end
 end
