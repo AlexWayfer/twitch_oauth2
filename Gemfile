@@ -9,8 +9,8 @@ group :development do
 	gem 'pry-byebug', '~> 3.9'
 
 	gem 'bundler', '~> 2.0'
-	gem 'gem_toys', '~> 0.12.0'
-	gem 'toys', '~> 0.14.2'
+	gem 'gem_toys', '~> 0.14.0'
+	gem 'toys', '~> 0.15.4'
 end
 
 group :test do
