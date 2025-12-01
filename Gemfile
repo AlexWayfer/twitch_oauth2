@@ -10,7 +10,7 @@ group :development do
 
 	gem 'bundler', '~> 2.0'
 	gem 'gem_toys', '~> 0.14.0'
-	gem 'toys', '~> 0.15.4'
+	gem 'toys', '~> 0.17.2'
 end
 
 group :test do
